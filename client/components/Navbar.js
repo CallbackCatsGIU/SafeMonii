@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import home from "../pages/home";
 import Button from "react-bootstrap/Button";
 import Transactions from "../pages/Transactions";
 
