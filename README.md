@@ -5,4 +5,4 @@
 * for server: yarn start/ npm start
 * for client: yarn dev/ npm dev
 
-#Main branch is sp-milestone-1
+# Main branch is sp-milestone-1
