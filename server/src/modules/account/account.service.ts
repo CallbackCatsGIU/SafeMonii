@@ -21,4 +21,9 @@ export class AccountService {
     let account = new this.accountModel(accountDto);
     return await account.save();
   }
+
+  async findAccountByNumber(accountNumber): Promise<Account[]> {
+    return await this.accountModel.find({accountNumber: accountNumber});
+
+  }
 }

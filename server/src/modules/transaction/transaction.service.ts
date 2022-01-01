@@ -5,10 +5,11 @@ import { InjectModel } from '@nestjs/mongoose';
 import { connection, Model } from 'mongoose';
 import { transactionDto } from './transaction.dto';
 import { Transaction } from '../transaction/transaction.interface';
+import { accountDto } from '../account/account.dto';
 
 @Injectable()
 export class TransactionService { 
-  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction>) {}
+  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction> , @InjectModel('accountDto') private AccountModel : Model<accountDto>) {}
   
   findAll(): Promise<Transaction[]> {
     return this.transactionModel.find().exec();
@@ -21,6 +22,24 @@ export class TransactionService {
 
   async newTransaction(transactionDto: transactionDto) {
     let transaction = new this.transactionModel(transactionDto);
+    return await transaction.save();
+  }
+
+  async InternalTransaction(transactionDto : transactionDto) {
+    let transaction = new this.transactionModel(transactionDto);
+    function deposit(newbalance : number , account : accountDto){
+      var mybalance  = account.balance;
+      newbalance = mybalance + newbalance;
+    }
+    function Withdraw(account : accountDto , withdraw : number){
+      if(account.balance <=0 || withdraw > account.balance){
+       alert("You don't have enough money to make transaction");
+      }
+      else{
+        var mybalance = account.balance;
+        withdraw = mybalance - withdraw;
+      }
+    }
     return await transaction.save();
   }
 
