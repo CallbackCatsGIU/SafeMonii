@@ -17,6 +17,13 @@ export class AccountService {
     return await this.accountModel.find({userId: id});
 
   }
+
+  async findAccountByNumber(accountNumber): Promise<Account> {
+    return await this.accountModel.findOne({accountNumber: accountNumber});
+
+  }
+
+
   async newAccount(accountDto: accountDto) {
     let account = new this.accountModel(accountDto);
     return await account.save();
