@@ -29,8 +29,8 @@ export class TransactionService {
   async InternalTransaction(transactionDto : transactionDto) {
     let sender = await this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
     let receiver = await this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
-    if(sender.balance < transactionDto.totalAmount){
-      alert("transaction amount is bigger than your balance");
+    if(sender.balance < transactionDto.totalAmount || sender.balance <= 0){
+      alert("Transaction cannot be done");
     }
     else{
       sender.updateBalance(-1 * transactionDto.totalAmount);
