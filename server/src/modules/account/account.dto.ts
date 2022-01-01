@@ -2,7 +2,7 @@ import {  IsNotEmpty } from 'class-validator';
 
 export class accountDto {
     
-  balance : Number;
+  balance : number;
   accountNumber : Number;
   active : boolean;
   id: Number;
