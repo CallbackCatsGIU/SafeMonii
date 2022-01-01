@@ -6,10 +6,11 @@ import { connection, Model } from 'mongoose';
 import { transactionDto } from './transaction.dto';
 import { Transaction } from '../transaction/transaction.interface';
 import { accountDto } from '../account/account.dto';
+import { AccountService } from '../account/account.service';
 
 @Injectable()
 export class TransactionService { 
-  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction> , @InjectModel('accountDto') private AccountModel : Model<accountDto>) {}
+  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction> , private accountService : AccountService) {}
   
   findAll(): Promise<Transaction[]> {
     return this.transactionModel.find().exec();
@@ -27,19 +28,11 @@ export class TransactionService {
 
   async InternalTransaction(transactionDto : transactionDto) {
     let transaction = new this.transactionModel(transactionDto);
-    function deposit(newbalance : number , account : accountDto){
-      var mybalance  = account.balance;
-      newbalance = mybalance + newbalance;
-    }
-    function Withdraw(account : accountDto , withdraw : number){
-      if(account.balance <=0 || withdraw > account.balance){
-       alert("You don't have enough money to make transaction");
-      }
-      else{
-        var mybalance = account.balance;
-        withdraw = mybalance - withdraw;
-      }
-    }
+    let sender = this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
+    let receiver = this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
+    (await sender).updateBalance(-1 * transactionDto.totalAmount);
+    (await receiver).updateBalance(transactionDto.totalAmount);
+
     return await transaction.save();
   }
 

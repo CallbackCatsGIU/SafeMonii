@@ -5,7 +5,8 @@ export class transactionDto {
   transactionName: String;
   credit:  Boolean;
   debit: Boolean;
-  totalAmount : Number;
-  accountNumberReceiver : Number
+  totalAmount : number;
+  accountNumberReceiver : Number;
+  accountNumberSender : Number
 
 }
