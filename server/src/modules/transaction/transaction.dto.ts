@@ -6,6 +6,6 @@ export class transactionDto {
   credit:  Boolean;
   debit: Boolean;
   totalAmount : Number;
-  id:Number;
+  accountNumberReceiver : Number
 
 }
