@@ -28,10 +28,11 @@ export class TransactionService {
 
   async InternalTransaction(transactionDto : transactionDto) {
     let transaction = new this.transactionModel(transactionDto);
-    let sender = this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
-    let receiver = this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
-    (await sender).updateBalance(-1 * transactionDto.totalAmount);
-    (await receiver).updateBalance(transactionDto.totalAmount);
+    let sender = await this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
+    let receiver = await this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
+
+    sender.updateBalance(-1 * transactionDto.totalAmount);
+    receiver.updateBalance(transactionDto.totalAmount);
 
     return await transaction.save();
   }
