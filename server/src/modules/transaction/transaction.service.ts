@@ -30,7 +30,7 @@ export class TransactionService {
     let sender = await this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
     let receiver = await this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
     if(sender.balance < transactionDto.totalAmount || sender.balance <= 0){
-      alert("Transaction cannot be done");
+      console.log("Transaction cannot be done");
     }
     else{
       sender.updateBalance(-1 * transactionDto.totalAmount);
