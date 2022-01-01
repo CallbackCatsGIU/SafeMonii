@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 export const AccountSchema = new mongoose.Schema({
     balance: {
         type: Number,
-        required: true,
+        default : 100,
         unique: false
     },
     accountNumber: {

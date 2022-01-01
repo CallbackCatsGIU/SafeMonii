@@ -10,7 +10,7 @@ export default class TransactionList extends Component {
   }
 
   booleanView(x) {
-    return x? "true" : "false";
+    return x? "YES" : "NO";
   }
 
 
