@@ -68,6 +68,7 @@ export default function Transaction_create() {
 			});
 		}
 	};
+	
 
 	const handleChange = (event) => {
 		const { name, value } = event.target;
@@ -144,18 +145,17 @@ export default function Transaction_create() {
 						Desired Bank
 					</Label>
 					<br></br>
-					<select class="custom-select" id="BankNames">
+					<select class="custom-select" id="BankNames" size= "1" name ="bankNamesDD" required onchange={enableButton()} >
 						<option selected>Choose...</option>
 						<option value="1">Solace Bank</option>
 						<option value="2">MYFSD Bank</option>
 						<option value="3">Amry International Bank</option>
-						<option value="3">The Iron Bank</option>
-						<option value="3">The Blank Bank</option>
-						<option value="3">Luck Bank</option>
+						<option value="4">The Iron Bank</option>
+						<option value="5">The Blank Bank</option>
+						<option value="6">Luck Bank</option>
 					</select>
 					<input type="button" id="seedoc" disabled value="Submit"></input>
 				</FormGroup>
-
 				<Button color="primary">Submit</Button>
 			</Form>
 		</div>
