@@ -12,6 +12,10 @@ export class TransactionController {
   async createTransaction(@Body() transaction: transactionDto) {
       return await this.transactionService.newTransaction(transaction);
   }
+  @Post('/newInternalTransaction')
+  async createInternalTransaction(@Body() transaction: transactionDto){
+      return await this.transactionService.InternalTransaction(transaction);
+  }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('/transactionList/:id')
