@@ -2,11 +2,11 @@ import {  IsNotEmpty } from 'class-validator';
 
 export class transactionDto {
   Date: Date;
-  transactionName: String;
+  description: String;
   credit:  Boolean;
   debit: Boolean;
-  totalAmount : number;
-  accountNumberReceiver : Number;
-  accountNumberSender : Number;
+  amount : number;
+  receiverAccountNumber : String;
+  senderAccountNumber : String;
 
 }

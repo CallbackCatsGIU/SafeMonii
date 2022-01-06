@@ -27,7 +27,6 @@ export class UserController {
     return await this.userService.findOneWithEmail(email);
   }
 
-
   @Post('register') 
   async create(@Body() register: UserDto) {
       return await this.userService.newUser(register);

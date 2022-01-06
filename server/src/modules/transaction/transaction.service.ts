@@ -27,8 +27,8 @@ export class TransactionService {
   }
 
   async getExternalTransaction(transactionDto: transactionDto) {
-    let accNumber = transactionDto.accountNumberReceiver;
-    let addedAmount = transactionDto.totalAmount;
+    let accNumber = transactionDto.receiverAccountNumber;
+    let addedAmount = transactionDto.amount;
     let current = await this.accountService.findAccountByNumber(accNumber);
     current.updateBalance(addedAmount);
     let transaction = new this.transactionModel(transactionDto);
@@ -36,20 +36,20 @@ export class TransactionService {
   }
 
   async makeExternalTransaction(transactionDto: transactionDto) {
-    let accNumber = transactionDto.accountNumberSender;
-    let subtractedAmount = transactionDto.totalAmount;
+    let accNumber = transactionDto.senderAccountNumber;
+    let subtractedAmount = transactionDto.amount;
     let current = await this.accountService.findAccountByNumber(accNumber);
-    if( Number(current.balance) < Number(transactionDto.totalAmount)+5 || transactionDto.totalAmount > 50 ){
+    if( Number(current.balance) < Number(transactionDto.amount)+5 || transactionDto.amount > 50 ){
       return error;
     }
     let newTrFee = {
         Date : transactionDto.Date,
-        transactionName : transactionDto.transactionName + " fee",
+        description : transactionDto.description + " fee",
         credit : transactionDto.credit,
         debit : transactionDto.debit,
-        totalAmount : 5,
-        accountNumberSender : accNumber,
-        accountNumberReceiver : null
+        amount : 5,
+        senderAccountNumber : accNumber,
+        receiverAccountNumber : null
     };
     
     current.updateBalance(-1 * subtractedAmount);
