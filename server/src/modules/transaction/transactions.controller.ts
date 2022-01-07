@@ -13,11 +13,6 @@ export class TransactionController {
       return await this.transactionService.newTransaction(transaction);
   }
 
-  @Post('/newExternalTransaction')
-  async createExternalTransaction(@Body() transaction: transactionDto) {
-    return await this.transactionService.makeExternalTransaction(transaction);
-  }
-
   @UseGuards(AuthGuard('jwt'))
   @Get('/transactionList/:id')
   async transaction(@Param('id') id: Number){

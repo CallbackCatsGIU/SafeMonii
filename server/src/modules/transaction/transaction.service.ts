@@ -26,39 +26,6 @@ export class TransactionService {
     return await transaction.save();
   }
 
-  async getExternalTransaction(transactionDto: transactionDto) {
-    let accNumber = transactionDto.receiverAccountNumber;
-    let addedAmount = transactionDto.amount;
-    let current = await this.accountService.findAccountByNumber(accNumber);
-    current.updateBalance(addedAmount);
-    let transaction = new this.transactionModel(transactionDto);
-    return await transaction.save();
-  }
-
-  async makeExternalTransaction(transactionDto: transactionDto) {
-    let accNumber = transactionDto.senderAccountNumber;
-    let subtractedAmount = transactionDto.amount;
-    let current = await this.accountService.findAccountByNumber(accNumber);
-    if( Number(current.balance) < Number(transactionDto.amount)+5 || transactionDto.amount > 50 ){
-      return error;
-    }
-    let newTrFee = {
-        Date : transactionDto.Date,
-        description : transactionDto.description + " fee",
-        credit : transactionDto.credit,
-        debit : transactionDto.debit,
-        amount : 5,
-        senderAccountNumber : accNumber,
-        receiverAccountNumber : null
-    };
-    
-    current.updateBalance(-1 * subtractedAmount);
-    let transaction = new this.transactionModel(transactionDto);
-    let fee = new this.transactionModel(newTrFee);
-    await fee.save();
-    current.updateBalance(-5);
-    return await transaction.save();
-  }
 
 }
 

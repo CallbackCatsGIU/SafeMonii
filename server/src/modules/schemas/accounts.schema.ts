@@ -23,6 +23,6 @@ export const AccountSchema = new mongoose.Schema({
 });
 
 AccountSchema.methods.updateBalance = function (amount) {
-    this.balance += amount;
+    this.balance += Number(amount);
     return this.save();
 };
