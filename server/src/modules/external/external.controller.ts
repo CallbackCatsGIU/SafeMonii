@@ -15,7 +15,7 @@ export class ExternalController {
     return await this.externalService.makeExternalTransaction(transaction);
   }
 
-  //@UseGuards(AuthGuard('external'))
+  @UseGuards(AuthGuard('external'))
   @Post('/getTransfer')
   async getExternalTransaction(@Body() transaction: transactionDto) {
     return await this.externalService.getExternalTransaction(transaction);

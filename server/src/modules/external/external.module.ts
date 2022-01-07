@@ -12,7 +12,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     MongooseModule.forFeature([{name: 'Transaction', schema: TransactionSchema}]),
     AccountModule,
-    PassportModule.register({ defaultStrategy: 'external', session: false }),
+    PassportModule.register({ defaultStrategy: 'jwt', session: false }),
     JwtModule.register({
       secretOrPrivateKey: "My_Secret_Key",
       signOptions: {
