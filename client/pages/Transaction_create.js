@@ -16,7 +16,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import AccountList from "../components/AccountList";
 
-export default function Transaction_create() {
+export default function transaction_create() {
 	const [receiverNumber, setReceiverNumber] = useState("");
 	const [trDescription, setTrDescription] = useState("");
 	const [trBalance, setTrBalance] = useState("");
@@ -54,20 +54,24 @@ export default function Transaction_create() {
 		}
 		setTrDescriptionState(TrDescriptionState);
 	};
-	
 
 	function submitExternalTransfer(data) {
-		axios.post(endPointState, data);
-	}
+		axios.post(endPointState, data, {
+			headers: { Authorization: `Bearer ${externalToken}` },
+		});
+	};
+
+	
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		validateReceiverNumber(receiverNumber);
 		validateTrBalance(trBalance);
-		validateTrDescription(trDescription)
+		validateTrDescription(trDescription);
+		const currentNum = window.localStorage.getItem("currentAccount");
 
 		if (bankNameState === 1) {
-			setEndPointState("https://safemonii.loca.lt/");
+			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
 
 		if (
@@ -76,11 +80,30 @@ export default function Transaction_create() {
 			trDescriptionState === "has-success"
 		) {
 			const data = new FormData();
+			const data2 = new FormData();
 			data = {
 				receiverAccountNumber: receiverNumberState,
 				amount: trBalanceState,
-				description: trDescriptionState
+				description: trDescriptionState,
 			};
+
+			data2 = {
+				senderAccountNumber: currentNum,
+				amount: trBalanceState,
+				description: trDescriptionState,
+			};
+			axios
+				.post("https://safemonii.loca.lt/external/createTransfer", data2)
+				.then((response) => {
+					externalToken = window.localStorage.setItem(
+						"external_jwt",
+						JSON.stringify(response.data.token)
+					);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+
 			submitExternalTransfer(data);
 		}
 	};
