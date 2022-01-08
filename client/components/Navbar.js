@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Transactions from "../pages/Transactions";
+import Transaction_create from "../pages/Transaction_create";
 
 export default function Navbar() {
   function signOut(){
@@ -16,6 +17,11 @@ export default function Navbar() {
         <li className="nav-item">
           <a className="nav-link" href="/">
             Dashboard
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="/transaction_create">
+            Create a Transaction
           </a>
         </li>
         <li className="nav-item">
