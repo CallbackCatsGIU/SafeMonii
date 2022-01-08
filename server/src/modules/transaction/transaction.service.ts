@@ -7,6 +7,7 @@ import { transactionDto } from './transaction.dto';
 import { Transaction } from '../transaction/transaction.interface';
 import { accountDto } from '../account/account.dto';
 import { AccountService } from '../account/account.service';
+import { HttpStatus, HttpException } from '@nestjs/common';
 
 @Injectable()
 export class TransactionService { 
@@ -30,11 +31,15 @@ export class TransactionService {
     let sender = await this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
     let receiver = await this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
     if(sender.balance < transactionDto.totalAmount || sender.balance <= 0){
-      console.log("Transaction cannot be done");
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Transaction cannot be done',
+      }, HttpStatus.BAD_REQUEST);;
+      //console.log("Transaction cannot be done");
     }
     else{
-      sender.updateBalance(-1 * transactionDto.totalAmount);
-      receiver.updateBalance(transactionDto.totalAmount);
+        sender.updateBalance(-1 * transactionDto.totalAmount);
+        receiver.updateBalance(transactionDto.totalAmount);
     }
     let transaction = new this.transactionModel(transactionDto);
 
