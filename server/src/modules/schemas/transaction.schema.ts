@@ -6,7 +6,7 @@ export const TransactionSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  transactionName: {
+  description: {
     type: String,
     required: true
   },
@@ -18,13 +18,19 @@ export const TransactionSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
-  totalAmount: {
+  amount: {
     type: Number,
     required : true
   },
-  accountNumber: {
-    type: Number,
+  receiverAccountNumber: {
+    type: String,
+    
+  },
+  
+  senderAccountNumber: {
+    type: String,
     
   }
+
 
 });

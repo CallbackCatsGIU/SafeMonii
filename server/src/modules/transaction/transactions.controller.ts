@@ -13,6 +13,22 @@ export class TransactionController {
       return await this.transactionService.newTransaction(transaction);
   }
 
+  
+  @Post('/newInternalTransaction')
+  async createInternalTransaction(@Body() transaction: transactionDto){
+      return await this.transactionService.internalTransaction(transaction);
+  }
+
+  @Get('/outerTransaction/:id')
+  async outerTransaction(@Param('id') id: Number){
+    return await this.transactionService.findTransactionSender(id);
+  }
+
+  @Get('/innerTransaction/:id')
+  async innerTransaction(@Param('id') id: Number){
+    return await this.transactionService.findTransactionReceiver(id);
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Get('/transactionList/:id')
   async transaction(@Param('id') id: Number){

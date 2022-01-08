@@ -1,3 +1,4 @@
+import { debug } from 'console';
 import * as mongoose from 'mongoose';
 
 export const AccountSchema = new mongoose.Schema({
@@ -20,3 +21,8 @@ export const AccountSchema = new mongoose.Schema({
     }
 
 });
+
+AccountSchema.methods.updateBalance = function (amount) {
+    this.balance += Number(amount);
+    return this.save();
+};

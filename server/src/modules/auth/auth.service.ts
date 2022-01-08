@@ -4,6 +4,7 @@ import { AuthDto } from './dtos/auth.dto';
 import { UserDto } from '../user/dtos/user.dto';
 import { UserService } from '../user/user.service';
 import { JwtPayload } from './jwtPayload.interface';
+import { User } from '../user/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -27,16 +28,16 @@ export class AuthService {
       called "sub" in payload which maps to the user id.
     */
 
-    let userLogin = await this.usersService.findOneByEmail(dto.email);
-
+    let user = await this.usersService.findOneByEmail(dto.email);
+    const payload : JwtPayload = { sub: user.studentId, email : user.email };
     return new Promise((resolve) => {
 
-      userLogin.checkPassword(dto.password, (err, isMatch) => {
+      user.checkPassword(dto.password, (err, isMatch) => {
 
         if (err) throw new UnauthorizedException();
 
         if (isMatch) {
-          resolve(this.createJwtPayload(userLogin));
+          resolve(this.createJwtPayload(user));
 
         } else {
           throw new UnauthorizedException();
@@ -47,21 +48,10 @@ export class AuthService {
     });
   }
 
-  async validateUserByJwt(payload: JwtPayload) {
-
-    let user = await this.usersService.findOneByEmail(payload.email);
-
-    if (user) {
-      return this.createJwtPayload(user);
-    } else {
-      throw new UnauthorizedException();
-    }
-
-  }
-
   createJwtPayload(user) {
 
     let data: JwtPayload = {
+      sub: user.sub,
       email: user.email
     };
 

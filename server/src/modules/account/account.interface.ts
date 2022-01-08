@@ -3,7 +3,8 @@ export interface Account {
     balance : Number,
     accountNumber : Number,
     active : Boolean,
-    id : Number
+    id : Number,
+    updateBalance(amount);
     
     
 }
