@@ -18,6 +18,7 @@ import AccountList from "../components/AccountList";
 
 export default function Transaction_create() {
 	const [receiverNumber, setReceiverNumber] = useState("");
+	const [trDescription, setTrDescription] = useState("");
 	const [trBalance, setTrBalance] = useState("");
 	const [trDescriptionState, setTrDescriptionState] = useState("");
 	const [receiverNumberState, setReceiverNumberState] = useState("");
@@ -44,6 +45,15 @@ export default function Transaction_create() {
 		setTrBalanceState(trBalanceState);
 	};
 
+	const validateTrDescription = (value) => {
+		let TrDescriptionState;
+		if (value <= 124 && value > 0) {
+			TrDescriptionState = "has-success";
+		} else {
+			TrDescriptionState = "has-danger";
+		}
+		setTrDescriptionState(TrDescriptionState);
+	};
 	/*const validateBankName = (value) => {
 		let bankNameState;
 		if (value != "Choose..." || value != null) {
@@ -86,6 +96,7 @@ export default function Transaction_create() {
 		event.preventDefault();
 		validateReceiverNumber(receiverNumber);
 		validateTrBalance(trBalance);
+		validateTrDescription(trDescription)
 
 		if (bankNameState === 1) {
 			setEndPointState("https://solace.loca.lt/");
@@ -93,13 +104,14 @@ export default function Transaction_create() {
 
 		if (
 			receiverNumberState === "has-success" &&
-			trBalanceState === "has-success"
+			trBalanceState === "has-success" &&
+			trDescriptionState === "has-success"
 		) {
 			const data = new FormData();
 			data = {
 				receiverAccountNumber: receiverNumberState,
 				amount: trBalanceState,
-				//description: trDescriptionState
+				description: trDescriptionState
 			};
 			submitExternalTransfer(data);
 		}
@@ -186,13 +198,15 @@ export default function Transaction_create() {
 						</FormFeedback>
 						<FormGroup>
 							<Label className={styles.label} for="receiverNumber">
-								Reciever Account Number
+								Transaction Description
 							</Label>
 							<Input
 								type="text"
 								name="TrDescription"
 								required
 								id="TrDescription"
+								minLength="1"
+								maxLength="124"
 								placeholder="ex. Tuition Fees"
 								onChange={handleChange}
 								valid={trDescriptionState === "has-success"}
