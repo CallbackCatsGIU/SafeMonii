@@ -36,7 +36,7 @@ export class TransactionService {
     return await transaction.save();
   }
   
-  async InternalTransaction(transactionDto : transactionDto) {
+  async internalTransaction(transactionDto : transactionDto) {
     let sender = await this.accountService.findAccountByNumber(transactionDto.senderAccountNumber);
     let receiver = await this.accountService.findAccountByNumber(transactionDto.receiverAccountNumber);
     if(sender.balance < transactionDto.amount || sender.balance <= 0){

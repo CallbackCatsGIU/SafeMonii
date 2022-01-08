@@ -39,6 +39,12 @@ export class ExternalService {
         error: "Account doesn't exist",
       }, HttpStatus.BAD_REQUEST);;
     }
+    if(addedAmount > 50 ){
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Invalid Amount',
+      }, HttpStatus.BAD_REQUEST);;
+    }
     current.updateBalance(addedAmount);
     let newTr = new this.transactionModel(newTransaction);
     return await newTr.save();
