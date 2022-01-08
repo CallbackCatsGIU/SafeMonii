@@ -9,14 +9,13 @@ export class ExternalController {
   constructor(private externalService: ExternalService) { }
 
  
-  //@UseGuards(AuthGuard('external'))
-  @Post('/transfer')
+  @Post('/createTransfer')
   async createExternalTransaction(@Body() transaction: transactionDto) {
     return await this.externalService.makeExternalTransaction(transaction);
   }
 
-  @UseGuards(AuthGuard('external'))
-  @Post('/getTransfer')
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/transfer')
   async getExternalTransaction(@Body() transaction: transactionDto) {
     return await this.externalService.getExternalTransaction(transaction);
   }

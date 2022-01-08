@@ -15,11 +15,23 @@ export class ExternalService {
   constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction>, private accountService : AccountService, private jwtService: JwtService) {}
 
 
-  async getExternalTransaction(transactionDto: transactionDto) {
-   // const user = await this.jwtService.verify(token);
+  async getExternalTransaction(body: any) {
 
-    let accNumber = transactionDto.receiverAccountNumber;
-    let addedAmount = transactionDto.amount;
+    let accNumber = body.receiverAccountNumber;
+    let addedAmount = body.amount;
+    let description = body.description;
+    let today = new Date().toLocaleDateString();
+
+    let newTransaction = {
+      Date : today,
+      description : description,
+      credit : true,
+      debit : false,
+      amount : addedAmount,
+      senderAccountNumber : null,
+      receiverAccountNumber : accNumber
+  };
+    
     let current = await this.accountService.findAccountByNumber(accNumber);
     if(!current){
       throw new HttpException({
@@ -28,8 +40,8 @@ export class ExternalService {
       }, HttpStatus.BAD_REQUEST);;
     }
     current.updateBalance(addedAmount);
-    let transaction = new this.transactionModel(transactionDto);
-    return await transaction.save();
+    let newTr = new this.transactionModel(newTransaction);
+    return await newTr.save();
   }
 
   async makeExternalTransaction(transactionDto: transactionDto) {

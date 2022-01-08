@@ -6,15 +6,16 @@ import { TransactionSchema } from '@sp/schemas';
 import { AccountModule } from '../account/account.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategy } from './strategies/jwt.strategy';
+import { JwtExternalStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{name: 'Transaction', schema: TransactionSchema}]),
     AccountModule,
     PassportModule.register({ defaultStrategy: 'jwt', session: false }),
+    //PassportModule,
     JwtModule.register({
-      secretOrPrivateKey: "My_Secret_Key",
+      secretOrPrivateKey: "My-Secret-Key",
       signOptions: {
         expiresIn: 3600
       }
@@ -23,6 +24,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
   exports: [ExternalService,JwtModule,PassportModule],
   controllers: [ExternalController],
-  providers: [ExternalService, JwtStrategy],
+  providers: [ExternalService, JwtExternalStrategy],
 })
 export class ExternalModule {}
