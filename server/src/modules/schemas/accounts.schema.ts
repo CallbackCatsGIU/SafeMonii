@@ -8,7 +8,7 @@ export const AccountSchema = new mongoose.Schema({
         unique: false
     },
     accountNumber: {
-        type: Number,
+        type: String,
         unique: true,
     },
     active: {

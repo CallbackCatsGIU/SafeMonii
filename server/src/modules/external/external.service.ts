@@ -50,11 +50,22 @@ export class ExternalService {
     return await newTr.save();
   }
 
-  async makeExternalTransaction(transactionDto: transactionDto) {
-    let accNumber = transactionDto.senderAccountNumber;
-    let subtractedAmount = transactionDto.amount;
+  async makeExternalTransaction(body : any) {
+    let accNumber = body.senderAccountNumber;
+    let subtractedAmount = body.amount;
+    let description = body.description;
+    let today = new Date().toLocaleDateString();
+
+    // let accNumber = transactionDto.senderAccountNumber;
+    // let subtractedAmount = transactionDto.amount;
     let current = await this.accountService.findAccountByNumber(accNumber);
-    if( Number(current.balance) < Number(transactionDto.amount)+5 || transactionDto.amount > 50 ){
+    if(!current){
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: "Account doesn't exist",
+      }, HttpStatus.BAD_REQUEST);;
+    }
+    if( Number(current.balance) < Number(subtractedAmount)+5 || subtractedAmount > 50 ){
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
         error: 'Invalid Amount',
@@ -62,17 +73,27 @@ export class ExternalService {
     }
 
     let newTrFee = {
-        Date : transactionDto.Date,
-        description : transactionDto.description + " fee",
-        credit : transactionDto.credit,
-        debit : transactionDto.debit,
+        Date : today,
+        description : description + " fee",
+        credit : true,
+        debit : false,
         amount : 5,
         senderAccountNumber : accNumber,
         receiverAccountNumber : null
     };
     
     current.updateBalance(-1 * subtractedAmount);
-    let transaction = new this.transactionModel(transactionDto);
+    //let transaction = new this.transactionModel(transactionDto);
+    let currentTr = {
+      Date : today,
+      description : description ,
+      credit : true,
+      debit : false,
+      amount : subtractedAmount,
+      senderAccountNumber : accNumber,
+      receiverAccountNumber : null
+  };
+    let transaction = new this.transactionModel(currentTr);
     let fee = new this.transactionModel(newTrFee);
     await fee.save();
     current.updateBalance(-5);
