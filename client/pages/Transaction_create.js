@@ -54,39 +54,7 @@ export default function Transaction_create() {
 		}
 		setTrDescriptionState(TrDescriptionState);
 	};
-	/*const validateBankName = (value) => {
-		let bankNameState;
-		if (value != "Choose..." || value != null) {
-			bankNameState = "has-success";
-		} else {
-			bankNameState = "has-danger";
-		}
-		setBankNameState(getBankName());
-	};*/
-	/*function useMutateExternalTransfer() {
-		return useMutation(
-		  (transfer) => {
-			const data = new FormData();
-			data = {
-			  receiverAccountNumber: user.email,
-			  password: user.password,
-			  userName: user.userName,
-			  studentId: user.studentId,
-			  phone: user.phone,
-			  fullName: user.fullName
-	  
-			}
-			return apiService.post(`http://localhost:8000/users/register`, data);
-		  }, {
-			// When mutate is called:
-			onSuccess: (responseData) => {
-			  // Redirect to login page
-			  window.location="http://localhost:3000/";
-			},
-			onError: (e) => console.log(e.message),
-		  }
-		);
-	  }*/
+	
 
 	function submitExternalTransfer(data) {
 		axios.post(endPointState, data);
@@ -99,7 +67,7 @@ export default function Transaction_create() {
 		validateTrDescription(trDescription)
 
 		if (bankNameState === 1) {
-			setEndPointState("https://solace.loca.lt/");
+			setEndPointState("https://safemonii.loca.lt/");
 		}
 
 		if (
