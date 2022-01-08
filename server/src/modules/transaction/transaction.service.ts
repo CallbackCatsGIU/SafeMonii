@@ -5,13 +5,12 @@ import { InjectModel } from '@nestjs/mongoose';
 import { connection, Model } from 'mongoose';
 import { transactionDto } from './transaction.dto';
 import { Transaction } from '../transaction/transaction.interface';
-import { accountDto } from '../account/account.dto';
 import { AccountService } from '../account/account.service';
-import { HttpStatus, HttpException } from '@nestjs/common';
+import { error } from 'console';
 
 @Injectable()
 export class TransactionService { 
-  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction> , private accountService : AccountService) {}
+  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction>, private accountService : AccountService) {}
   
   findAll(): Promise<Transaction[]> {
     return this.transactionModel.find().exec();
@@ -27,23 +26,6 @@ export class TransactionService {
     return await transaction.save();
   }
 
-  async InternalTransaction(transactionDto : transactionDto) {
-    let sender = await this.accountService.findAccountByNumber(transactionDto.accountNumberSender);
-    let receiver = await this.accountService.findAccountByNumber(transactionDto.accountNumberReceiver);
-    if(sender.balance < transactionDto.totalAmount || sender.balance <= 0){
-      throw new HttpException({
-        status: HttpStatus.BAD_REQUEST,
-        error: 'Transaction cannot be done',
-      }, HttpStatus.BAD_REQUEST);;
-      //console.log("Transaction cannot be done");
-    }
-    else{
-        sender.updateBalance(-1 * transactionDto.totalAmount);
-        receiver.updateBalance(transactionDto.totalAmount);
-    }
-    let transaction = new this.transactionModel(transactionDto);
-
-    return await transaction.save();
-  }
 
 }
+
