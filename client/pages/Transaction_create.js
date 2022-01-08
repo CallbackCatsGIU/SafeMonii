@@ -25,7 +25,9 @@ export default function transaction_create() {
 	const [receiverNumberState, setReceiverNumberState] = useState("");
 	const [trBalanceState, setTrBalanceState] = useState("");
 	const [bankNameState, setBankNameState] = useState("Solace Bank");
-	const [endPointState, setEndPointState] = useState("https://safemonii.loca.lt/external/transfer");
+	const [endPointState, setEndPointState] = useState(
+		"https://safemonii.loca.lt/external/transfer"
+	);
 
 	const validateReceiverNumber = (value) => {
 		let receiverNumberState;
@@ -59,15 +61,9 @@ export default function transaction_create() {
 
 	async function submitExternalTransfer(data) {
 		console.log("abdo " + endPointState);
-		await axios
-			.post(endPointState, {
-				headers: { 
-				Authorization: `Bearer ${externalToken}`,
-				"Bypass-Tunnel-Reminder" : "any" ,
-				"Accept": "application/json",
-				"Content-Type": "application/json",
-			}
-			},data).then( (res) => {
+		await apiService
+			.post(endPointState, data)
+			.then((res) => {
 				console.log(res);
 			})
 			.catch((error) => {
@@ -75,16 +71,16 @@ export default function transaction_create() {
 			});
 	}
 
-	
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		validateReceiverNumber(receiverNumber);
 		validateTrBalance(trBalance);
 		validateTrDescription(trDescription);
-		const currentNum = JSON.parse(window.localStorage.getItem("currentAccount_transaction"));
-		
+		const currentNum = JSON.parse(
+			window.localStorage.getItem("currentAccount_transaction")
+		);
 
-		console.log("kero: "+ bankNameState);
+		console.log("kero: " + bankNameState);
 		if (bankNameState == 1) {
 			console.log("zayat");
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
@@ -110,7 +106,7 @@ export default function transaction_create() {
 			};
 			console.log(data);
 			console.log(data2);
-			await axios
+			apiService
 				.post("http://localhost:8000/external/createTransfer", data2)
 				.then((response) => {
 					console.log(response.data.token);
@@ -122,11 +118,9 @@ export default function transaction_create() {
 					submitExternalTransfer(data);
 				})
 				.catch((error) => {
-					console.log("aaaaa")
+					console.log("aaaaa");
 					console.log(error);
 				});
-			
-			
 		}
 	};
 
@@ -143,28 +137,8 @@ export default function transaction_create() {
 			setTrDescription(value);
 		}
 	};
-	function logValue() {
+	/*function logValue() {
 		console.log(bankNameState);
-	}
-
-	/*const handleChange2 = (e)=>{
-        setBankNameState({selectValue:e.target.value});
-		console.log(bankNameState)
-    };*/
-
-	/*function getBankName() {
-		bnkname = document.querySelector("#BankNames");
-		output = bnkname.options[bnkname.selectedIndex].value;
-		setBankNameState(output);
-		console.log(output);
-		return output;
-	}*/
-
-	/*function enableButton() {
-		var selectelem = document.getElementById("BankNames");
-		var btnelem = document.getElementById("seedoc");
-		btnelem.disabled = !selectelem.value;
-	
 	}*/
 
 	return (
@@ -178,7 +152,7 @@ export default function transaction_create() {
 							Receiver Account Number
 						</Label>
 						<Input
-							type="tel"
+							type="text"
 							name="ReceiverAccountNumber"
 							required
 							id="receiverNumber"

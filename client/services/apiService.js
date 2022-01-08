@@ -11,6 +11,7 @@ axios.interceptors.request.use(
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: "Bearer " + accessToken,
+      
     };
 
     config.headers.common = headers;
