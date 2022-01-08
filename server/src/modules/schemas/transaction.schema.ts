@@ -25,6 +25,12 @@ export const TransactionSchema = new mongoose.Schema({
   receiverAccountNumber: {
     type: String,
     
+  },
+  
+  senderAccountNumber: {
+    type: String,
+    
   }
+
 
 });

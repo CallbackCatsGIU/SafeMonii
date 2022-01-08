@@ -1,4 +1,4 @@
-import { Get, Injectable, Post } from '@nestjs/common';
+import { Get, HttpException, HttpStatus, Injectable, Post } from '@nestjs/common';
 import { NestApplicationContext } from '@nestjs/core';
 import { InjectModel } from '@nestjs/mongoose';
 //import { Transaction } from '@sp/schemas';
@@ -21,11 +21,39 @@ export class TransactionService {
 
   }
 
+  async findTransactionSender(id): Promise<Transaction[]> {
+    return await this.transactionModel.find({senderAccountNumber : id});
+
+  }
+  
+  async findTransactionReceiver(id): Promise<Transaction[]> {
+    return await this.transactionModel.find({receiverAccountNumber : id});
+
+  }
+
   async newTransaction(transactionDto: transactionDto) {
     let transaction = new this.transactionModel(transactionDto);
     return await transaction.save();
   }
+  
+  async InternalTransaction(transactionDto : transactionDto) {
+    let sender = await this.accountService.findAccountByNumber(transactionDto.senderAccountNumber);
+    let receiver = await this.accountService.findAccountByNumber(transactionDto.receiverAccountNumber);
+    if(sender.balance < transactionDto.amount || sender.balance <= 0){
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Transaction cannot be done',
+      }, HttpStatus.BAD_REQUEST);;
+      //console.log("Transaction cannot be done");
+    }
+    else{
+        sender.updateBalance(-1 * transactionDto.amount);
+        receiver.updateBalance(transactionDto.amount);
+    }
+    let transaction = new this.transactionModel(transactionDto);
 
+    return await transaction.save();
+  }
 
 }
 

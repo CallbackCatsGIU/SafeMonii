@@ -1,14 +1,11 @@
 import * as mongoose from 'mongoose';
 export interface Transaction { 
-  date: Date;
-  transactionName: String;
+  Date: Date;
+  description: String;
   credit:  Boolean;
   debit: Boolean;
-  totalAmount: Number;
-  id: [
-      {
-          type: Number
-      }
-  ]
+  amount : number;
+  receiverAccountNumber : String;
+  senderAccountNumber : String;
 
 }
