@@ -25,7 +25,7 @@ export default function transaction_create() {
 	const [receiverNumberState, setReceiverNumberState] = useState("");
 	const [trBalanceState, setTrBalanceState] = useState("");
 	const [bankNameState, setBankNameState] = useState("Solace Bank");
-	const [endPointState, setEndPointState] = useState("");
+	const [endPointState, setEndPointState] = useState("https://safemonii.loca.lt/external/transfer");
 
 	const validateReceiverNumber = (value) => {
 		let receiverNumberState;
@@ -57,24 +57,36 @@ export default function transaction_create() {
 		setTrDescriptionState(TrDescriptionState);
 	};
 
-	function submitExternalTransfer(data) {
-		axios
-			.post(endPointState, data, {
-				headers: { Authorization: `Bearer ${externalToken}` },
+	async function submitExternalTransfer(data) {
+		console.log("abdo " + endPointState);
+		await axios
+			.post(endPointState, {
+				headers: { 
+				Authorization: `Bearer ${externalToken}`,
+				"Bypass-Tunnel-Reminder" : "any" ,
+				"Accept": "application/json",
+				"Content-Type": "application/json",
+			}
+			},data).then( (res) => {
+				console.log(res);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}
 
-	const handleSubmit = (event) => {
+	
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		validateReceiverNumber(receiverNumber);
 		validateTrBalance(trBalance);
 		validateTrDescription(trDescription);
-		const currentNum = window.localStorage.getItem("currentAccount");
+		const currentNum = JSON.parse(window.localStorage.getItem("currentAccount_transaction"));
+		
 
-		if (bankNameState === 1) {
+		console.log("kero: "+ bankNameState);
+		if (bankNameState == 1) {
+			console.log("zayat");
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
 
@@ -86,27 +98,35 @@ export default function transaction_create() {
 			const data = new FormData();
 			const data2 = new FormData();
 			data = {
-				receiverAccountNumber: receiverNumberState,
-				amount: trBalanceState,
-				description: trDescriptionState,
+				receiverAccountNumber: receiverNumber,
+				description: trDescription,
+				amount: trBalance,
 			};
 
 			data2 = {
 				senderAccountNumber: currentNum,
-				amount: trBalanceState,
-				description: trDescriptionState,
+				amount: trBalance,
+				description: trDescription,
 			};
-			axios
+			console.log(data);
+			console.log(data2);
+			await axios
 				.post("http://localhost:8000/external/createTransfer", data2)
 				.then((response) => {
-					console.log(externalToken);
+					console.log(response.data.token);
 					setExternalToken(response.data.token);
+					submitExternalTransfer(data);
+				})
+				.then(() => {
+					console.log("zzzz");
+					submitExternalTransfer(data);
 				})
 				.catch((error) => {
+					console.log("aaaaa")
 					console.log(error);
 				});
 			
-			submitExternalTransfer(data);
+			
 		}
 	};
 

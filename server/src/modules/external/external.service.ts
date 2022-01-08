@@ -11,8 +11,8 @@ import { JwtService } from '@nestjs/jwt';
 import { externalJwtPayload } from './jwtPayload.interface';
 
 @Injectable()
-export class ExternalService { 
-  constructor(@InjectModel('Transaction') private transactionModel : Model<Transaction>, private accountService : AccountService, private jwtService: JwtService) {}
+export class ExternalService {
+  constructor(@InjectModel('Transaction') private transactionModel: Model<Transaction>, private accountService: AccountService, private jwtService: JwtService) { }
 
 
   async getExternalTransaction(body: any) {
@@ -23,23 +23,23 @@ export class ExternalService {
     let today = new Date().toLocaleDateString();
 
     let newTransaction = {
-      Date : today,
-      description : description,
-      credit : true,
-      debit : false,
-      amount : addedAmount,
-      senderAccountNumber : null,
-      receiverAccountNumber : accNumber
-  };
-    
+      Date: today,
+      description: description + "(outer)",
+      credit: true,
+      debit: false,
+      amount: addedAmount,
+      senderAccountNumber: "External Bank",
+      receiverAccountNumber: accNumber
+    };
+
     let current = await this.accountService.findAccountByNumber(accNumber);
-    if(!current){
+    if (!current) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
         error: "Account doesn't exist",
       }, HttpStatus.BAD_REQUEST);;
     }
-    if(addedAmount > 50 ){
+    if (addedAmount > 50) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
         error: 'Invalid Amount',
@@ -47,10 +47,11 @@ export class ExternalService {
     }
     current.updateBalance(addedAmount);
     let newTr = new this.transactionModel(newTransaction);
+    console.log(newTr)
     return await newTr.save();
   }
 
-  async makeExternalTransaction(body : any) {
+  async makeExternalTransaction(body: any) {
     let accNumber = body.senderAccountNumber;
     let subtractedAmount = body.amount;
     let description = body.description;
@@ -59,13 +60,13 @@ export class ExternalService {
     // let accNumber = transactionDto.senderAccountNumber;
     // let subtractedAmount = transactionDto.amount;
     let current = await this.accountService.findAccountByNumber(accNumber);
-    if(!current){
+    if (!current) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
         error: "Account doesn't exist",
       }, HttpStatus.BAD_REQUEST);;
     }
-    if( Number(current.balance) < Number(subtractedAmount)+5 || subtractedAmount > 50 ){
+    if (Number(current.balance) < Number(subtractedAmount) + 5 || subtractedAmount > 50) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
         error: 'Invalid Amount',
@@ -73,26 +74,26 @@ export class ExternalService {
     }
 
     let newTrFee = {
-        Date : today,
-        description : description + " fee",
-        credit : true,
-        debit : false,
-        amount : 5,
-        senderAccountNumber : accNumber,
-        receiverAccountNumber : null
+      Date: today,
+      description: description + " fee",
+      credit: true,
+      debit: false,
+      amount: 5,
+      senderAccountNumber: accNumber,
+      receiverAccountNumber: null
     };
-    
+
     current.updateBalance(-1 * subtractedAmount);
     //let transaction = new this.transactionModel(transactionDto);
     let currentTr = {
-      Date : today,
-      description : description ,
-      credit : true,
-      debit : false,
-      amount : subtractedAmount,
-      senderAccountNumber : accNumber,
-      receiverAccountNumber : null
-  };
+      Date: today,
+      description: description,
+      credit: true,
+      debit: false,
+      amount: subtractedAmount,
+      senderAccountNumber: accNumber,
+      receiverAccountNumber: "External Bank"
+    };
     let transaction = new this.transactionModel(currentTr);
     let fee = new this.transactionModel(newTrFee);
     await fee.save();
@@ -106,7 +107,7 @@ export class ExternalService {
   createJwtPayload(data) {
 
     let x: externalJwtPayload = {
-      accountNum : data
+      accountNum: data
     };
 
     let external = this.jwtService.sign(x);
