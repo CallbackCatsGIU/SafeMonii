@@ -4,6 +4,7 @@ import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Transactions from "../pages/Transactions";
 import Transaction_create from "../pages/Transaction_create";
+import Internal_Transaction from "../pages/InternalTransaction";
 
 
 export default class AccountList extends Component {
@@ -17,7 +18,7 @@ export default class AccountList extends Component {
     window.sessionStorage.setItem("currentAccount_transaction",JSON.stringify(currentacc));
     const currentbalance = this.props.obj.balance;
     window.sessionStorage.setItem("currentBalance_transaction",JSON.stringify(currentbalance));
-    window.location = "http://localhost:3000/Transaction_create"
+    window.location = "http://localhost:3000/transition"
     };
 
   handleClick = () => {
@@ -36,7 +37,7 @@ export default class AccountList extends Component {
         <td>{this.props.obj.accountNumber}</td>
         <td>{this.props.obj.balance}</td>
         <td>
-          <Button className="btn-success" onClick= {this.handleClick2}>Create Transaction</Button>
+          <Button style={{marginRight : 40}} className="btn-success" onClick= {this.handleClick2}>Create Transaction</Button>
           <Button className="btn-success" onClick= {this.handleClick}>View Transactions</Button>
         </td>
       </tr>

@@ -92,9 +92,8 @@ export default function Login() {
         <Button color="primary" onSubmit={handleSubmit}>
           Submit
         </Button>
-        <br></br>
-        <br></br>
-        <Button color="primary" onClick={OnRegister}>
+       
+        <Button style={{marginLeft: 40}}color="primary" onClick={OnRegister}>
           Don't have an account? Register here
         </Button>
       </Form>

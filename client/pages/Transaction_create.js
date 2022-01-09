@@ -104,9 +104,8 @@ export default function Transaction_create() {
 			window.sessionStorage.getItem("currentAccount_transaction")
 		);
 
-		console.log("kero: " + banknamestate);
+		
 		if (banknamestate == 1) {
-			console.log("zayat");
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
 

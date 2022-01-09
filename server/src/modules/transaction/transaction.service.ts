@@ -61,8 +61,8 @@ export class TransactionService {
       credit: !debit,
       debit: debit,
       amount: addedAmount,
-      senderAccountNumber: sender,
-      receiverAccountNumber: receiver
+      senderAccountNumber: body.senderAccountNumber,
+      receiverAccountNumber: body.receiverAccountNumber
     };
 
     sender.updateBalance(-1 * addedAmount);
