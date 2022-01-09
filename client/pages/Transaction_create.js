@@ -51,7 +51,7 @@ export default function transaction_create() {
 
 	const validateTrDescription = (value) => {
 		let TrDescriptionState;
-		if (value.length <= 250 && value.length > 1) {
+		if (value.length <= 250 && value.length >= 1) {
 			TrDescriptionState = "has-success";
 		} else {
 			TrDescriptionState = "has-danger";
@@ -60,9 +60,17 @@ export default function transaction_create() {
 	};
 
 	async function submitExternalTransfer(data) {
-		console.log("abdo " + endPointState);
-		await apiService
-			.post(endPointState, data)
+		const ExToken = window.localStorage.getItem("ExternalJWT")
+		console.log("abdo " + endPointState + ExToken);
+		await axios
+			.post(endPointState, data, {
+				headers: {
+					Authorization: `Bearer ${ExToken}`,
+					"Bypass-Tunnel-Reminder": "any",
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+			})
 			.then((res) => {
 				console.log(res);
 			})
@@ -106,12 +114,13 @@ export default function transaction_create() {
 			};
 			console.log(data);
 			console.log(data2);
-			apiService
+			await axios
 				.post("http://localhost:8000/external/createTransfer", data2)
 				.then((response) => {
 					console.log(response.data.token);
+					window.localStorage.setItem("ExternalJWT",response.data.token)
 					setExternalToken(response.data.token);
-					submitExternalTransfer(data);
+					console.log("before" + externalToken)
 				})
 				.then(() => {
 					console.log("zzzz");
