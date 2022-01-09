@@ -6,114 +6,124 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import styles from "../styles/Home.module.css";
 import { renderMatches } from "react-router";
+import TransactionListOuter from "../components/TransactionListOuter";
 
 export default class Transactions extends Component {
-  constructor() {
-    super();
-    this.state = {
-      innerTransactions: [],
-      outerTransactions: [],
-      currentNum: [],
-      currentBalance: []
-    };
-  }
+	constructor() {
+		super();
+		this.state = {
+			innerTransactions: [],
+			outerTransactions: [],
+			currentNum: [],
+			currentBalance: [],
+		};
+	}
 
-  async componentDidMount() {
-    const currentNum = window.sessionStorage.getItem("currentAccount");
-    this.setState({
-      currentNum: currentNum,
-    });
+	async componentDidMount() {
+		const currentNum = JSON.parse(window.sessionStorage.getItem("currentAccount"));
+		this.setState({
+			currentNum: currentNum,
+		});
 
-    const currentBalance = window.sessionStorage.getItem("currentBalance");
-    this.setState({
-      currentBalance: currentBalance,
-    });
+		const currentBalance = window.sessionStorage.getItem("currentBalance");
+		this.setState({
+			currentBalance: currentBalance,
+		});
 
-    const token = JSON.parse(window.sessionStorage.getItem("jwt"));
+		const token = JSON.parse(window.sessionStorage.getItem("jwt"));
+		console.log(currentNum);
+		await axios
+			.get(
+				"http://localhost:8000/transactions/outerTransaction/" +
+					parseInt(currentNum),
+				{ headers: { Authorization: `Bearer ${token}` } }
+			)
+			.then((response) => {
+				console.log("success");
+				console.log(response);
+				this.setState({
+					outerTransactions: Object.values(response.data),
+				});
+				console.log(this.outerTransactions);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 
-    await axios
-      .get(
-        "http://localhost:8000/transactions/outerTransaction/" +
-          parseInt(currentNum),{ headers: { Authorization: `Bearer ${token}` } } 
-      )
-      .then((response) => {
-        console.log("success");
-        this.setState({
-          outerTransactions: Object.values(response.data),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+		await axios
+			.get(
+				"http://localhost:8000/transactions/innerTransaction/" +
+					parseInt(currentNum),
+				{ headers: { Authorization: `Bearer ${token}` } }
+			)
+			.then((response) => {
+				console.log("success");
+				this.setState({
+					innerTransactions: Object.values(response.data),
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+	DataTable() {
+		return this.state.outerTransactions.map((res, i) => {
+			return <TransactionListOuter obj={res} key={i} />;
+		});
+	}
+	DataTable2() {
+		return this.state.innerTransactions.map((res, i) => {
+			return <TransactionList obj={res} key={i} />;
+		});
+	}
 
-      await axios
-      .get(
-        "http://localhost:8000/transactions/innerTransaction/" +
-          parseInt(currentNum),{ headers: { Authorization: `Bearer ${token}` } } 
-      )
-      .then((response) => {
-        console.log("success");
-        this.setState({
-          innerTransactions: Object.values(response.data),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-  DataTable() {
-    return this.state.outerTransactions.map((res, i) => {
-      return <TransactionList obj={res} key={i} />;
-    });
-  }
-  DataTable2() {
-    return this.state.innerTransactions.map((res, i) => {
-      return <TransactionList obj={res} key={i} />;
-    });
-  }
-
-  render() {
-    return (
-      <div>
-        <Navbar />
-        <h1 style = {{textAlign:"center"}}className="p-3 mb-2 bg-dark text-white">Account Transactions</h1>
-        <div className={styles.App}>
-          <p style = {{textAlign:"center"}}>Account Number: {this.state.currentNum}</p>
-          <p style = {{textAlign:"center"}}>Account Balance: {this.state.currentBalance}</p>
-        </div>
-        <div className="table-wrapper">
-          <h1>
-            Outer Transactions
-          </h1>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>transactionName</th>
-                <th>debit</th>
-                <th>credit</th>
-                <th>totalAmount</th>
-              </tr>
-            </thead>
-            <tbody>{this.DataTable()}</tbody>
-          </Table>
-          <h1>
-            Inner Transactions
-          </h1>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>transactionName</th>
-                <th>debit</th>
-                <th>credit</th>
-                <th>totalAmount</th>
-              </tr>
-            </thead>
-            <tbody>{this.DataTable2()}</tbody>
-          </Table>
-        </div>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div>
+				<Navbar />
+				<h1
+					style={{ textAlign: "center" }}
+					className="p-3 mb-2 bg-dark text-white"
+				>
+					Account Transactions
+				</h1>
+				<div className={styles.App}>
+					<p style={{ textAlign: "center" }}>
+						Account Number: {this.state.currentNum}
+					</p>
+					<p style={{ textAlign: "center" }}>
+						Account Balance: {this.state.currentBalance}
+					</p>
+				</div>
+				<div className="table-wrapper">
+					<h1>Outer Transactions</h1>
+					<Table striped bordered hover>
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>description</th>
+								<th>debit</th>
+								<th>credit</th>
+								<th>amount</th>
+							</tr>
+						</thead>
+						<tbody>{this.DataTable()}</tbody>
+					</Table>
+					<h1>Inner Transactions</h1>
+					<Table striped bordered hover>
+						<thead>
+							<tr>
+								<th>Date</th>
+								<th>description</th>
+								<th>debit</th>
+								<th>credit</th>
+								<th>amount</th>
+							</tr>
+						</thead>
+						<tbody>{this.DataTable2()}</tbody>
+					</Table>
+				</div>
+			</div>
+		);
+	}
 }

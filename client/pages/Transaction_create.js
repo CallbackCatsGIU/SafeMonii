@@ -16,7 +16,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import AccountList from "../components/AccountList";
 
-export default function transaction_create() {
+export default function Transaction_create() {
 	const [receiverNumber, setReceiverNumber] = useState("");
 	const [trDescription, setTrDescription] = useState("");
 	const [externalToken, setExternalToken] = useState("");
@@ -29,6 +29,9 @@ export default function transaction_create() {
 	const [endPointState, setEndPointState] = useState(
 		"https://safemonii.loca.lt/external/transfer"
 	);
+
+	
+		
 
 	const validateReceiverNumber = (value) => {
 		let receiverNumberState;
@@ -81,17 +84,19 @@ export default function transaction_create() {
 			})
 			.catch((error) => {
 				console.log(error);
-				if (error.response && error.response.data.error == "Account doesn't exist" ) {
+				if (
+					error.response &&
+					error.response.data.error == "Account doesn't exist"
+				) {
 					//console.log(error.response.data.error);
-					setErrorState(error.response.data.error)
-					errorState = error.response.data.error
-					console.log(errorState)
-					
+					setErrorState(error.response.data.error);
+					errorState = error.response.data.error;
+					console.log(errorState);
 				}
 				axios
 					.post("http://localhost:8000/external/refund", data2)
 					.catch((error) => {
-						console.log(error)
+						console.log(error);
 					});
 				document.querySelector("#wrongCredentials").style.display = "block";
 			});
