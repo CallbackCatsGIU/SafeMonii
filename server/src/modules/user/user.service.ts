@@ -23,11 +23,12 @@ export class UserService {
 
   async newUser(userDto: UserDto) {
     let user = new this.userModel(userDto);
+    let accountNumberString:string = "4499" + (Math.floor(Math. random() * (99999999 - 0 + 1)).toString())
     let accountDto =
     {
       balance: 100,
       active : true,
-      accountNumber : Math.floor(Math. random() * (999999999999 - 0 + 1))+0,
+      accountNumber : accountNumberString,
       userId : user.getStudentId(user.id)
     };
 

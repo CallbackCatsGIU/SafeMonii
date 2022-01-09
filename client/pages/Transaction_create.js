@@ -30,9 +30,6 @@ export default function Transaction_create() {
 		"https://safemonii.loca.lt/external/transfer"
 	);
 
-	
-		
-
 	const validateReceiverNumber = (value) => {
 		let receiverNumberState;
 		if (value.length == 12) {
@@ -84,21 +81,18 @@ export default function Transaction_create() {
 			})
 			.catch((error) => {
 				console.log(error);
-				if (
-					error.response &&
-					error.response.data.error == "Account doesn't exist"
-				) {
+				if (error.response) {
 					//console.log(error.response.data.error);
 					setErrorState(error.response.data.error);
 					errorState = error.response.data.error;
 					console.log(errorState);
 				}
+				document.querySelector("#wrongCredentials").style.display = "block";
 				axios
 					.post("http://localhost:8000/external/refund", data2)
 					.catch((error) => {
 						console.log(error);
 					});
-				document.querySelector("#wrongCredentials").style.display = "block";
 			});
 	}
 
@@ -152,6 +146,13 @@ export default function Transaction_create() {
 				.catch((error) => {
 					console.log("aaaaa");
 					console.log(error);
+					if (error.response) {
+						//console.log(error.response.data.error);
+						setErrorState(error.response.data.error);
+						errorState = error.response.data.error;
+						console.log(errorState);
+					}
+					document.querySelector("#wrongCredentials").style.display = "block";
 				});
 		}
 	};

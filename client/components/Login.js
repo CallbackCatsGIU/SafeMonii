@@ -63,7 +63,7 @@ export default function Login() {
       </div>
         <FormGroup>
           <Label className={styles.label} for="email">
-            Username
+            Email
           </Label>
 
           <Input
