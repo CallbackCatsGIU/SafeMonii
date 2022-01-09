@@ -8,7 +8,7 @@ export default function Home() {
   const [accessToken, setAccessToken] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("jwt");
+    const token = sessionStorage.getItem("jwt");
     setAccessToken(token);
   }, []);
 

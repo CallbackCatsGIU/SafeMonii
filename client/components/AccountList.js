@@ -14,17 +14,17 @@ export default class AccountList extends Component {
 
   handleClick2 = () => {
     const currentacc = this.props.obj.accountNumber;
-    window.localStorage.setItem("currentAccount_transaction",JSON.stringify(currentacc));
+    window.sessionStorage.setItem("currentAccount_transaction",JSON.stringify(currentacc));
     const currentbalance = this.props.obj.balance;
-    window.localStorage.setItem("currentBalance_transaction",JSON.stringify(currentbalance));
+    window.sessionStorage.setItem("currentBalance_transaction",JSON.stringify(currentbalance));
     window.location = "http://localhost:3000/Transaction_create"
     };
 
   handleClick = () => {
     const currentacc = this.props.obj.accountNumber;
-    window.localStorage.setItem("currentAccount",JSON.stringify(currentacc));
+    window.sessionStorage.setItem("currentAccount",JSON.stringify(currentacc));
     const currentbalance = this.props.obj.balance;
-    window.localStorage.setItem("currentBalance",JSON.stringify(currentbalance));
+    window.sessionStorage.setItem("currentBalance",JSON.stringify(currentbalance));
     window.location = "http://localhost:3000/transactions"
     };
   

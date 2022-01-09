@@ -18,11 +18,11 @@ export default class Dashboard extends Component {
 
   async componentDidMount() {
     const currentID = "";
-    const currentUser = JSON.parse(window.localStorage.getItem("myUser"));
+    const currentUser = JSON.parse(window.sessionStorage.getItem("myUser"));
     const email = encodeURI(currentUser.email);
 
     const url = `http://localhost:8000/users/email/${email}`;
-    const token = JSON.parse(window.localStorage.getItem("jwt"));
+    const token = JSON.parse(window.sessionStorage.getItem("jwt"));
 
 
     await axios

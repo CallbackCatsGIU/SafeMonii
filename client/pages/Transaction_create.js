@@ -24,7 +24,7 @@ export default function transaction_create() {
 	const [trDescriptionState, setTrDescriptionState] = useState("");
 	const [receiverNumberState, setReceiverNumberState] = useState("");
 	const [trBalanceState, setTrBalanceState] = useState("");
-	const [bankNameState, setBankNameState] = useState("Solace Bank");
+	const [banknamestate, setBankNameState] = useState("Solace Bank");
 	const [endPointState, setEndPointState] = useState(
 		"https://safemonii.loca.lt/external/transfer"
 	);
@@ -59,8 +59,8 @@ export default function transaction_create() {
 		setTrDescriptionState(TrDescriptionState);
 	};
 
-	async function submitExternalTransfer(data) {
-		const ExToken = window.localStorage.getItem("ExternalJWT")
+	async function submitExternalTransfer(data,data2) {
+		const ExToken = window.sessionStorage.getItem("ExternalJWT");
 		console.log("abdo " + endPointState + ExToken);
 		await axios
 			.post(endPointState, data, {
@@ -69,6 +69,7 @@ export default function transaction_create() {
 					"Bypass-Tunnel-Reminder": "any",
 					Accept: "application/json",
 					"Content-Type": "application/json",
+					"Access-Control-Allow-Origin": "*",
 				},
 			})
 			.then((res) => {
@@ -76,6 +77,11 @@ export default function transaction_create() {
 			})
 			.catch((error) => {
 				console.log(error);
+				axios.post("http://localhost:8000/external/refund",data2).catch((error)=>
+				{
+					console.log(error + "bosa")
+				})
+				document.querySelector("#wrongCredentials").style.display = "block";
 			});
 	}
 
@@ -85,11 +91,11 @@ export default function transaction_create() {
 		validateTrBalance(trBalance);
 		validateTrDescription(trDescription);
 		const currentNum = JSON.parse(
-			window.localStorage.getItem("currentAccount_transaction")
+			window.sessionStorage.getItem("currentAccount_transaction")
 		);
 
-		console.log("kero: " + bankNameState);
-		if (bankNameState == 1) {
+		console.log("kero: " + banknamestate);
+		if (banknamestate == 1) {
 			console.log("zayat");
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
@@ -118,13 +124,13 @@ export default function transaction_create() {
 				.post("http://localhost:8000/external/createTransfer", data2)
 				.then((response) => {
 					console.log(response.data.token);
-					window.localStorage.setItem("ExternalJWT",response.data.token)
+					window.sessionStorage.setItem("ExternalJWT", response.data.token);
 					setExternalToken(response.data.token);
-					console.log("before" + externalToken)
+					console.log("before" + externalToken);
 				})
 				.then(() => {
 					console.log("zzzz");
-					submitExternalTransfer(data);
+					submitExternalTransfer(data,data2);
 				})
 				.catch((error) => {
 					console.log("aaaaa");
@@ -146,14 +152,19 @@ export default function transaction_create() {
 			setTrDescription(value);
 		}
 	};
-	/*function logValue() {
-		console.log(bankNameState);
-	}*/
 
 	return (
 		<div>
 			<Navbar />
 			<div className={styles.App}>
+				<div
+					style={{ display: "none" }}
+					id="wrongCredentials"
+					className="alert alert-danger"
+					role="alert"
+				>
+					Transaction Failed
+				</div>
 				<h2>Transfer Balance Externally</h2>
 				<Form className={styles.form} onSubmit={handleSubmit}>
 					<FormGroup>
@@ -222,16 +233,19 @@ export default function transaction_create() {
 						</Label>
 						<br></br>
 						<select
-							class="custom-select"
+							className="custom-select"
 							id="BankNames"
 							size="1"
 							name="bankNamesDD"
-							bankNameState={bankNameState}
+							defaultValue={"DEFAULT"}
+							banknamestate={banknamestate}
 							onChange={(e) => {
 								setBankNameState(e.target.value);
 							}}
 						>
-							<option selected>Choose...</option>
+							<option value="DEFAULT" disabled>
+								Choose...
+							</option>
 							<option value="1">Solace Bank</option>
 							<option value="2">MYFSD Bank</option>
 							<option value="3">Amry International Bank</option>

@@ -18,17 +18,17 @@ export default class Transactions extends Component {
   }
 
   async componentDidMount() {
-    const currentNum = window.localStorage.getItem("currentAccount");
+    const currentNum = window.sessionStorage.getItem("currentAccount");
     this.setState({
       currentNum: currentNum,
     });
 
-    const currentBalance = window.localStorage.getItem("currentBalance");
+    const currentBalance = window.sessionStorage.getItem("currentBalance");
     this.setState({
       currentBalance: currentBalance,
     });
 
-    const token = JSON.parse(window.localStorage.getItem("jwt"));
+    const token = JSON.parse(window.sessionStorage.getItem("jwt"));
 
     await axios
       .get(
