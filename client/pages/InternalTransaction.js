@@ -82,9 +82,11 @@ export default function InternalTransaction() {
     validateTransDescription(transactionDescription);
     console.log(debitCredit);
     if (debitCredit == "credit") {
-      setdebitCredit(False);
+      setdebitCredit(false);
+      debitCredit = false
     } else {
-      setdebitCredit(True);
+      setdebitCredit(true);
+      debitCredit = true
     }
     if (
       reciverNumState === "has-success" &&
@@ -93,16 +95,20 @@ export default function InternalTransaction() {
     ) {
       const data = new FormData();
       const token = JSON.parse(window.sessionStorage.getItem("jwt"));
+      const currentNum = JSON.parse(
+        window.sessionStorage.getItem("currentAccount_transaction")
+      );
       data = {
         receiverAccountNumber: reciverNum,
         description: transactionDescription,
         amount: transactionBalance,
         debitCredit: debitCredit,
+        senderAccountNumber: currentNum,
       };
       console.log(data);
       axios
         .post(
-          "http://localhost:8000/transactions/createInternalTransaction",
+          "http://localhost:8000/transactions/newInternalTransaction",
           data,
           {
             headers: {
@@ -206,9 +212,9 @@ export default function InternalTransaction() {
               <br></br>
               <input
                 type="radio"
-                name="credit"
+                name="debit"
                 value="credit"
-                id="credit"
+                id="debit"
                 debitCredit={debitCredit}
                 onChange={(e) => {
                   setdebitCredit(e.target.value);
