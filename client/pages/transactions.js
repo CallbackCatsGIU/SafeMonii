@@ -31,7 +31,6 @@ export default class Transactions extends Component {
 		});
 
 		const token = JSON.parse(window.sessionStorage.getItem("jwt"));
-		console.log(currentNum);
 		await axios
 			.get(
 				"http://localhost:8000/transactions/outerTransaction/" +
@@ -40,11 +39,9 @@ export default class Transactions extends Component {
 			)
 			.then((response) => {
 				console.log("success");
-				console.log(response);
 				this.setState({
 					outerTransactions: Object.values(response.data),
 				});
-				console.log(this.outerTransactions);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -96,28 +93,28 @@ export default class Transactions extends Component {
 					</p>
 				</div>
 				<div className="table-wrapper">
-					<h1>Outer Transactions</h1>
+					<h1>Sent Transactions</h1>
 					<Table striped bordered hover>
 						<thead>
 							<tr>
 								<th>Date</th>
-								<th>description</th>
-								<th>debit</th>
-								<th>credit</th>
-								<th>amount</th>
+								<th>Description</th>
+								<th>Debit</th>
+								<th>Credit</th>
+								<th>Amount</th>
 							</tr>
 						</thead>
 						<tbody>{this.DataTable()}</tbody>
 					</Table>
-					<h1>Inner Transactions</h1>
+					<h1>Received Transactions</h1>
 					<Table striped bordered hover>
 						<thead>
 							<tr>
 								<th>Date</th>
-								<th>description</th>
-								<th>debit</th>
-								<th>credit</th>
-								<th>amount</th>
+								<th>Description</th>
+								<th>Debit</th>
+								<th>Credit</th>
+								<th>Amount</th>
 							</tr>
 						</thead>
 						<tbody>{this.DataTable2()}</tbody>

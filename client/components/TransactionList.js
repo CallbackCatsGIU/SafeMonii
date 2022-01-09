@@ -9,6 +9,11 @@ export default class TransactionList extends Component {
     super(props);
   }
 
+  dateFormat(date){
+    const x = date.split('T');
+    return x[0];
+  }
+
   booleanView(x) {
     return x ? "YES" : "NO";
   }
@@ -16,7 +21,7 @@ export default class TransactionList extends Component {
   render() {
     return (
       <tr>
-        <td>{this.props.obj.Date}</td>
+        <td>{this.dateFormat(this.props.obj.Date)}</td>
         <td>{this.props.obj.description}</td>
         <td>{this.booleanView(this.props.obj.debit)}</td>
         <td>{this.booleanView(this.props.obj.credit)}</td>

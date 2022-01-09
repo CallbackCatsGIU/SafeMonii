@@ -106,8 +106,24 @@ export default function Transaction_create() {
 
 		
 		if (banknamestate == 1) {
+			setEndPointState("https://solace.loca.lt/external/transfer");
+		}
+		if (banknamestate == 2) {
+			setEndPointState("https://myfsd.loca.it/external/transfer");
+		}
+		if (banknamestate == 3) {
+			setEndPointState("https://amryinternationalbank.loca.lt/external/transfer");
+		}
+		if (banknamestate == 4) {
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
+		if (banknamestate == 5) {
+			setEndPointState("https://safemonii.loca.lt/external/transfer");
+		}
+		if (banknamestate == 6) {
+			setEndPointState("https://luckbank.loca.lt/external/transfer");
+		}
+
 
 		if (
 			receiverNumberState === "has-success" &&

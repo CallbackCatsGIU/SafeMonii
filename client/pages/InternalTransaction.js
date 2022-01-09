@@ -20,22 +20,22 @@ import {
 } from "reactstrap";
 
 export default function InternalTransaction() {
-  const [reciverNum, setReciverNum] = useState("");
-  const [reciverNumState, setreciverNumState] = useState("");
-  const [transactionDescription, settransactionDescription] = useState("");
-  const [transDescriptionState, settransDescriptionState] = useState("");
-  const [transactionBalance, settransactionBalance] = useState("");
-  const [tranBalanceState, settranBalanceState] = useState("");
+  const [reciverNum, setReceiverNum] = useState("");
+  const [reciverNumState, setReceiverNumState] = useState("");
+  const [transactionDescription, setTransactionDescription] = useState("");
+  const [transDescriptionState, setTransDescriptionState] = useState("");
+  const [transactionBalance, setTransactionBalance] = useState("");
+  const [tranBalanceState, setTranBalanceState] = useState("");
   const [debitCredit, setdebitCredit] = useState("True");
 
-  const validateReciverNum = (value) => {
+  const validateReceiverNum = (value) => {
     let reciverNumState;
     if (value.length == 12) {
       reciverNumState = "has-success";
     } else {
       reciverNumState = "has-danger";
     }
-    setreciverNumState(reciverNumState);
+    setReceiverNumState(reciverNumState);
   };
 
   const validateTransDescription = (value) => {
@@ -45,7 +45,7 @@ export default function InternalTransaction() {
     } else {
       transDescriptionState = "has-danger";
     }
-    settransDescriptionState(transDescriptionState);
+    setTransDescriptionState(transDescriptionState);
   };
 
   const validateTranBalance = (value) => {
@@ -55,7 +55,7 @@ export default function InternalTransaction() {
     } else {
       tranBalanceState = "has-danger";
     }
-    settranBalanceState(tranBalanceState);
+    setTranBalanceState(tranBalanceState);
   };
 
   function Returnback() {
@@ -64,20 +64,20 @@ export default function InternalTransaction() {
   const handleChange = (event) => {
     const { name, value } = event.target;
     if (name === "reciverNum") {
-      validateReciverNum(value);
-      setReciverNum(value);
+      validateReceiverNum(value);
+      setReceiverNum(value);
     } else if (name === "transactionBalance") {
       validateTranBalance(value);
-      settransactionBalance(value);
+      setTransactionBalance(value);
     } else if (name === "transactionDescription") {
       validateTransDescription(value);
-      settransactionDescription(value);
+      setTransactionDescription(value);
     }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    validateReciverNum(reciverNum);
+    validateReceiverNum(reciverNum);
     validateTranBalance(transactionBalance);
     validateTransDescription(transactionDescription);
     console.log(debitCredit);
@@ -139,7 +139,7 @@ export default function InternalTransaction() {
         <Form className={styles.form} onSubmit={handleSubmit}>
           <FormGroup>
             <Label className={styles.label} for="reciverNum">
-              Reciever Account Number
+              Receiver Account Number
             </Label>
             <Input
               type="tel"

@@ -13,10 +13,15 @@ export default class TransactionListOuter extends Component {
     return x ? "YES" : "NO";
   }
 
+  dateFormat(date){
+    const x = date.split('T');
+    return x[0];
+  }
+
   render() {
     return (
       <tr>
-        <td>{this.props.obj.Date}</td>
+        <td>{this.dateFormat(this.props.obj.Date)}</td>
         <td>{this.props.obj.description}</td>
         <td>{this.booleanView(this.props.obj.debit)}</td>
         <td>{this.booleanView(this.props.obj.credit)}</td>
