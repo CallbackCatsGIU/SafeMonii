@@ -51,6 +51,20 @@ export class ExternalService {
     return await newTr.save();
   }
 
+  async errorRefund(body : any){
+    console.log("da5alnaaa");
+    let accNumber = body.senderAccountNumber;
+    let addedAmount = body.amount;
+    let description = body.description;
+
+    let current = await this.accountService.findAccountByNumber(accNumber);
+    let failedTransaction = this.transactionModel.findOne({senderAccountNumber : accNumber, amount : addedAmount, description : description});
+    (await failedTransaction).delete();
+    failedTransaction = this.transactionModel.findOne({senderAccountNumber : accNumber, amount : addedAmount, description : description + " fee"});
+    (await failedTransaction).delete();
+    current.updateBalance(addedAmount+5);
+  }
+
   async makeExternalTransaction(body: any) {
     let accNumber = body.senderAccountNumber;
     let subtractedAmount = body.amount;

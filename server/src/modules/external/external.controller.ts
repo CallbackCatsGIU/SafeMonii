@@ -14,6 +14,11 @@ export class ExternalController {
     return await this.externalService.makeExternalTransaction(transaction);
   }
 
+  @Post('/refund')
+  async refund(@Body() transaction: transactionDto) {
+    return await this.externalService.errorRefund(transaction);
+  }
+
   @UseGuards(AuthGuard('jwt'))
   @Post('/transfer')
   async getExternalTransaction(@Body() transaction: transactionDto) {
