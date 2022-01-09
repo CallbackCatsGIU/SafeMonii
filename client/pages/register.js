@@ -161,7 +161,7 @@ export default function Register() {
   };
 
   return (
-    <div className={styles.App}>
+    <div className={styles.App} style={{backgroundColor: "white"}}>
       <h2 >Register</h2>
       <Form className={styles.form} onSubmit={handleSubmit}>
         <FormGroup>

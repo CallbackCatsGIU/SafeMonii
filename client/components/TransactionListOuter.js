@@ -10,7 +10,7 @@ export default class TransactionListOuter extends Component {
   }
 
   booleanView(x) {
-    return x ? "YES" : "NO";
+    return x ? "Debit" : "Credit";
   }
 
   dateFormat(date){
@@ -24,8 +24,7 @@ export default class TransactionListOuter extends Component {
         <td>{this.dateFormat(this.props.obj.Date)}</td>
         <td>{this.props.obj.description}</td>
         <td>{this.booleanView(this.props.obj.debit)}</td>
-        <td>{this.booleanView(this.props.obj.credit)}</td>
-        <td>{this.props.obj.amount * -1}</td>
+        <td>-{this.props.obj.amount} $</td>
       </tr>
     );
   }

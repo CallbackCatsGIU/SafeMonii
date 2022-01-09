@@ -6,69 +6,76 @@ import MyApp from "../pages/_app";
 import apiService from "../services/apiService";
 import AccountList from "./AccountList.js";
 import Navbar from "./Navbar";
-import background from "../public/Logomaske_384x215_blue_light.jpg"
+import background from "../public/Logomaske_384x215_blue_light.jpg";
 
 export default class Dashboard extends Component {
-  constructor() {
-    super();
-    this.state = {
-      account: [],
-    };
-  }
+	constructor() {
+		super();
+		this.state = {
+			account: [],
+		};
+	}
 
-  async componentDidMount() {
-    const currentID = "";
-    const currentUser = JSON.parse(window.sessionStorage.getItem("myUser"));
-    const email = encodeURI(currentUser.email);
+	async componentDidMount() {
+		const currentID = "";
+		const currentUser = JSON.parse(window.sessionStorage.getItem("myUser"));
+		const email = encodeURI(currentUser.email);
 
-    const url = `http://localhost:8000/users/email/${email}`;
-    const token = JSON.parse(window.sessionStorage.getItem("jwt"));
+		const url = `http://localhost:8000/users/email/${email}`;
+		const token = JSON.parse(window.sessionStorage.getItem("jwt"));
 
+		await axios
+			.get(url)
+			.then((response) => {
+				currentID = response.data[0].studentId;
+			})
+			.catch((error) => console.log(error));
 
-    await axios
-      .get(url)
-      .then((response) => {
-        currentID = response.data[0].studentId;
-      })
-      .catch((error) => console.log(error));
+		axios
+			.get("http://localhost:8000/accounts/accountList/" + currentID, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				this.setState({
+					account: Object.values(response.data),
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
-    axios
-      .get("http://localhost:8000/accounts/accountList/" + currentID,{ headers: { Authorization: `Bearer ${token}` } })
-      .then((response) => {
-        this.setState({
-          account: Object.values(response.data),
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    
-  }
+	DataTable() {
+		return this.state.account.map((res, i) => {
+			return <AccountList obj={res} key={i} />;
+		});
+	}
 
-  DataTable() {
-    return this.state.account.map((res, i) => {
-      return <AccountList obj={res} key={i} />;
-    });
-  }
-
-  render() {
-    return (
-      <div style={{backgroundImage: `url(${background})`}}>
-        <Navbar />
-        <h1 style = {{textAlign:"center"}}className="p-3 mb-2 bg-dark text-white">Welcome to SafeMonii</h1>
-        <div className="table-wrapper">
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Balance</th>
-                <th>Transactions</th>
-              </tr>
-            </thead>
-            <tbody>{this.DataTable()}</tbody>
-          </Table>
-        </div>
-      </div>
-    );
-  }
+	render() {
+		return (
+			<div>
+				<Navbar />
+				<h1
+					style={{ textAlign: "center" }}
+					className="p-3 mb-2 bg-dark text-white"
+				>
+					Welcome to SafeMonii
+				</h1>
+				<div className={styles.App} style={{width: 1040 ,outerHeight:1000,backgroundColor:"white"}}>
+					<div className="table-wrapper" style={{ textAlign: "center" }}>
+						<Table striped bordered hover style={{ backgroundColor: "white",textAlign: "center" }}>
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Balance</th>
+									<th>Transactions</th>
+								</tr>
+							</thead>
+							<tbody>{this.DataTable()}</tbody>
+						</Table>
+					</div>
+				</div>
+			</div>
+		);
+	}
 }

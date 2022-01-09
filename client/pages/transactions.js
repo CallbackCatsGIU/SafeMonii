@@ -20,7 +20,9 @@ export default class Transactions extends Component {
 	}
 
 	async componentDidMount() {
-		const currentNum = JSON.parse(window.sessionStorage.getItem("currentAccount"));
+		const currentNum = JSON.parse(
+			window.sessionStorage.getItem("currentAccount")
+		);
 		this.setState({
 			currentNum: currentNum,
 		});
@@ -84,41 +86,49 @@ export default class Transactions extends Component {
 				>
 					Account Transactions
 				</h1>
-				<div className={styles.App}>
-					<p style={{ textAlign: "center" }}>
+				<div className={styles.App} style={{backgroundColor: "white"}}>
+					<h4 style={{ textAlign: "center" }}>
 						Account Number: {this.state.currentNum}
-					</p>
-					<p style={{ textAlign: "center" }}>
-						Account Balance: {this.state.currentBalance}
-					</p>
+					</h4>
+					<h4 style={{ textAlign: "center" }}>
+						Account Balance: {this.state.currentBalance} $
+					</h4>
 				</div>
-				<div className="table-wrapper">
-					<h1>Sent Transactions</h1>
-					<Table striped bordered hover>
-						<thead>
-							<tr>
-								<th>Date</th>
-								<th>Description</th>
-								<th>Debit</th>
-								<th>Credit</th>
-								<th>Amount</th>
-							</tr>
-						</thead>
-						<tbody>{this.DataTable()}</tbody>
-					</Table>
-					<h1>Received Transactions</h1>
-					<Table striped bordered hover>
-						<thead>
-							<tr>
-								<th>Date</th>
-								<th>Description</th>
-								<th>Debit</th>
-								<th>Credit</th>
-								<th>Amount</th>
-							</tr>
-						</thead>
-						<tbody>{this.DataTable2()}</tbody>
-					</Table>
+				<div class="row" >
+					<div class="col-sm-6" >
+						<div className={styles.App} style={{backgroundColor: "white"}}>
+							<div className="table-wrapper">
+								<h2 style={{ textAlign: "center" }}>Sent Transactions</h2>
+								<Table striped bordered hover>
+									<thead>
+										<tr>
+											<th>Date</th>
+											<th>Description</th>
+											<th>Type</th>
+											<th>Amount</th>
+										</tr>
+									</thead>
+									<tbody>{this.DataTable()}</tbody>
+								</Table>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div className={styles.App} style={{backgroundColor: "white"}}>
+							<h2 style={{ textAlign: "center" }}>Received Transactions</h2>
+							<Table striped bordered hover>
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Description</th>
+										<th>Type</th>
+										<th>Amount</th>
+									</tr>
+								</thead>
+								<tbody>{this.DataTable2()}</tbody>
+							</Table>
+						</div>
+					</div>
 				</div>
 			</div>
 		);

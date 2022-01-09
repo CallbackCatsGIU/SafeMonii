@@ -110,9 +110,9 @@ export class ExternalService {
     };
     let transaction = new this.transactionModel(currentTr);
     let fee = new this.transactionModel(newTrFee);
-    await fee.save();
-    current.updateBalance(-5);
     await transaction.save()
+    current.updateBalance(-5);
+    await fee.save();
     return new Promise((resolve) => {
       resolve(this.createJwtPayload(accNumber));
     });

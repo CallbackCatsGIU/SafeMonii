@@ -34,9 +34,9 @@ export default class AccountList extends Component {
   render() {
     return (
       <tr>
-        <td>{this.props.obj.accountNumber}</td>
-        <td>{this.props.obj.balance}</td>
-        <td>
+        <td style={{backgroundColor: "white"}}>{this.props.obj.accountNumber}</td>
+        <td style={{backgroundColor: "white"}}>{this.props.obj.balance}</td>
+        <td style={{backgroundColor: "white"}}>
           <Button style={{marginRight : 40}} className="btn-success" onClick= {this.handleClick2}>Create Transaction</Button>
           <Button className="btn-success" onClick= {this.handleClick}>View Transactions</Button>
         </td>

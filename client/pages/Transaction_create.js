@@ -26,9 +26,7 @@ export default function Transaction_create() {
 	const [receiverNumberState, setReceiverNumberState] = useState("");
 	const [trBalanceState, setTrBalanceState] = useState("");
 	const [banknamestate, setBankNameState] = useState("Solace Bank");
-	const [endPointState, setEndPointState] = useState(
-		"https://safemonii.loca.lt/external/transfer"
-	);
+	const [endPointState, setEndPointState] = useState();
 
 	const validateReceiverNumber = (value) => {
 		let receiverNumberState;
@@ -104,27 +102,37 @@ export default function Transaction_create() {
 			window.sessionStorage.getItem("currentAccount_transaction")
 		);
 
-		
 		if (banknamestate == 1) {
 			setEndPointState("https://solace.loca.lt/external/transfer");
+			endPointState = "https://solace.loca.lt/external/transfer"
 		}
 		if (banknamestate == 2) {
 			setEndPointState("https://myfsd.loca.it/external/transfer");
+			endPointState = "https://myfsd.loca.lt/external/transfer"
 		}
 		if (banknamestate == 3) {
-			setEndPointState("https://amryinternationalbank.loca.lt/external/transfer");
+			setEndPointState(
+				"https://amryinternationalbank.loca.lt/external/transfer"
+			);
+			endPointState = "https://amryinternationalbank.loca.lt/external/transfer"
+
 		}
 		if (banknamestate == 4) {
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
+			endPointState = "https://safemonii.loca.lt/external/transfer"
+			
+			
 		}
 		if (banknamestate == 5) {
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
 		if (banknamestate == 6) {
 			setEndPointState("https://luckbank.loca.lt/external/transfer");
+			endPointState = "https://luckbank.loca.lt/external/transfer"
+
 		}
 
-
+		console.log(banknamestate);
 		if (
 			receiverNumberState === "has-success" &&
 			trBalanceState === "has-success" &&
@@ -188,7 +196,13 @@ export default function Transaction_create() {
 	return (
 		<div>
 			<Navbar />
-			<div className={styles.App}>
+			<h2
+				style={{ textAlign: "center" }}
+				className="p-3 mb-2 bg-dark text-white"
+			>
+				External Transfer
+			</h2>
+			<div className={styles.App} style={{backgroundColor: "white"}}>
 				<div
 					style={{ display: "none" }}
 					id="wrongCredentials"
@@ -197,7 +211,6 @@ export default function Transaction_create() {
 				>
 					{errorState}
 				</div>
-				<h2>Transfer Balance Externally</h2>
 				<Form className={styles.form} onSubmit={handleSubmit}>
 					<FormGroup>
 						<Label className={styles.label} for="receiverNumber">

@@ -134,8 +134,13 @@ export default function InternalTransaction() {
   return (
     <div>
       <Navbar />
-      <div className={styles.App}>
-        <h2>Transfer Balance Internally</h2>
+      <h2
+				style={{ textAlign: "center" }}
+				className="p-3 mb-2 bg-dark text-white"
+			>
+				Internal Transfer
+			</h2>
+      <div className={styles.App} style={{backgroundColor: "white"}}>
         <Form className={styles.form} onSubmit={handleSubmit}>
           <FormGroup>
             <Label className={styles.label} for="reciverNum">
