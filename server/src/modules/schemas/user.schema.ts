@@ -80,5 +80,9 @@ UserSchema.methods.checkPassword = function (attempt, callback) {
     if (err) return callback(err);
     callback(null, isMatch);
   });
-
+  
 };
+UserSchema.methods.getStudentId = function(id){
+  let user = this;
+  return user.studentId;
+}

@@ -5,5 +5,5 @@ export class accountDto {
   balance : number;
   accountNumber : Number;
   active : boolean;
-  id: Number;
+  userId: Number;
 }

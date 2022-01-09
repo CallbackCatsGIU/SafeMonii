@@ -4,5 +4,6 @@ export interface User {
     phone: string,
     studentId: string,
     checkPassword(attempt, callback);
+    getStudentId(id);
 
 }
