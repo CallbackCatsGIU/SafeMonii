@@ -47,7 +47,6 @@ export class ExternalService {
     }
     current.updateBalance(addedAmount);
     let newTr = new this.transactionModel(newTransaction);
-    console.log(newTr)
     return await newTr.save();
   }
 

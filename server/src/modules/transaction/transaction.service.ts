@@ -36,21 +36,38 @@ export class TransactionService {
     return await transaction.save();
   }
   
-  async internalTransaction(transactionDto : transactionDto) {
-    let sender = await this.accountService.findAccountByNumber(transactionDto.senderAccountNumber);
-    let receiver = await this.accountService.findAccountByNumber(transactionDto.receiverAccountNumber);
-    if(sender.balance < transactionDto.amount || sender.balance <= 0){
+  async internalTransaction(body: any) {
+    let sender = await this.accountService.findAccountByNumber(body.senderAccountNumber);
+    let receiver = await this.accountService.findAccountByNumber(body.receiverAccountNumber);
+    let addedAmount = body.amount;
+    let description = body.description;
+    let debit = body.debitCredit;
+    let today = new Date().toLocaleDateString();
+    if (!receiver) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
-        error: 'Transaction cannot be done',
+        error: "Account Does Not Exist",
       }, HttpStatus.BAD_REQUEST);;
-      //console.log("Transaction cannot be done");
     }
-    else{
-        sender.updateBalance(-1 * transactionDto.amount);
-        receiver.updateBalance(transactionDto.amount);
+    if(sender.balance < addedAmount){
+      throw new HttpException({
+        status: HttpStatus.BAD_REQUEST,
+        error: 'Invalid amount',
+      }, HttpStatus.BAD_REQUEST);;
     }
-    let transaction = new this.transactionModel(transactionDto);
+    let newTransaction = {
+      Date: today,
+      description: description,
+      credit: !debit,
+      debit: debit,
+      amount: addedAmount,
+      senderAccountNumber: sender,
+      receiverAccountNumber: receiver
+    };
+
+    sender.updateBalance(-1 * addedAmount);
+    receiver.updateBalance(addedAmount);
+    let transaction = new this.transactionModel(newTransaction);
 
     return await transaction.save();
   }
