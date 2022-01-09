@@ -23,7 +23,8 @@ export class TransactionController {
   async outerTransaction(@Param('id') id: Number){
     return await this.transactionService.findTransactionSender(id);
   }
-
+  
+  @UseGuards(AuthGuard('jwt'))
   @Get('/innerTransaction/:id')
   async innerTransaction(@Param('id') id: Number){
     return await this.transactionService.findTransactionReceiver(id);
