@@ -11,9 +11,10 @@ export default class Transactions extends Component {
   constructor() {
     super();
     this.state = {
-      transactions: [],
+      innerTransactions: [],
+      outerTransactions: [],
       currentNum: [],
-      currentBalance: [],
+      currentBalance: []
     };
   }
 
@@ -32,13 +33,28 @@ export default class Transactions extends Component {
 
     await axios
       .get(
-        "http://localhost:8000/transactions/transactionList/" +
+        "http://localhost:8000/transactions/outerTransaction/" +
           parseInt(currentNum),{ headers: { Authorization: `Bearer ${token}` } } 
       )
       .then((response) => {
         console.log("success");
         this.setState({
-          transactions: Object.values(response.data),
+          outerTransactions: Object.values(response.data),
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+      await axios
+      .get(
+        "http://localhost:8000/transactions/innerTransaction/" +
+          parseInt(currentNum),{ headers: { Authorization: `Bearer ${token}` } } 
+      )
+      .then((response) => {
+        console.log("success");
+        this.setState({
+          innerTransactions: Object.values(response.data),
         });
       })
       .catch((error) => {
@@ -46,7 +62,12 @@ export default class Transactions extends Component {
       });
   }
   DataTable() {
-    return this.state.transactions.map((res, i) => {
+    return this.state.outerTransactions.map((res, i) => {
+      return <TransactionList obj={res} key={i} />;
+    });
+  }
+  DataTable2() {
+    return this.state.innerTransactions.map((res, i) => {
       return <TransactionList obj={res} key={i} />;
     });
   }
@@ -61,6 +82,9 @@ export default class Transactions extends Component {
           <p style = {{textAlign:"center"}}>Account Balance: {this.state.currentBalance}</p>
         </div>
         <div className="table-wrapper">
+          <h1>
+            Outer Transactions
+          </h1>
           <Table striped bordered hover>
             <thead>
               <tr>
@@ -72,6 +96,21 @@ export default class Transactions extends Component {
               </tr>
             </thead>
             <tbody>{this.DataTable()}</tbody>
+          </Table>
+          <h1>
+            Inner Transactions
+          </h1>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>transactionName</th>
+                <th>debit</th>
+                <th>credit</th>
+                <th>totalAmount</th>
+              </tr>
+            </thead>
+            <tbody>{this.DataTable2()}</tbody>
           </Table>
         </div>
       </div>

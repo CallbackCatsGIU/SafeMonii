@@ -36,7 +36,7 @@ export class ExternalService {
     if (!current) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
-        error: "Account doesn't exist",
+        error: "Account Does Not Exist",
       }, HttpStatus.BAD_REQUEST);;
     }
     if (addedAmount > 50) {
@@ -78,7 +78,7 @@ export class ExternalService {
     if (!current) {
       throw new HttpException({
         status: HttpStatus.BAD_REQUEST,
-        error: "Account doesn't exist",
+        error: "Account Does Not Exist",
       }, HttpStatus.BAD_REQUEST);;
     }
     if (Number(current.balance) < Number(subtractedAmount) + 5 || subtractedAmount > 50) {

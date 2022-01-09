@@ -82,8 +82,8 @@ export default function transaction_create() {
 			.catch((error) => {
 				console.log(error);
 				if (error.response && error.response.data.error == "Account doesn't exist" ) {
-					console.log(error.response.data.error);
-					//setErrorState(error.response.data.error)
+					//console.log(error.response.data.error);
+					setErrorState(error.response.data.error)
 					errorState = error.response.data.error
 					console.log(errorState)
 					
