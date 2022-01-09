@@ -20,6 +20,7 @@ export default function transaction_create() {
 	const [receiverNumber, setReceiverNumber] = useState("");
 	const [trDescription, setTrDescription] = useState("");
 	const [externalToken, setExternalToken] = useState("");
+	const [errorState, setErrorState] = useState("Network Error");
 	const [trBalance, setTrBalance] = useState("");
 	const [trDescriptionState, setTrDescriptionState] = useState("");
 	const [receiverNumberState, setReceiverNumberState] = useState("");
@@ -59,7 +60,7 @@ export default function transaction_create() {
 		setTrDescriptionState(TrDescriptionState);
 	};
 
-	async function submitExternalTransfer(data,data2) {
+	async function submitExternalTransfer(data, data2) {
 		const ExToken = window.sessionStorage.getItem("ExternalJWT");
 		console.log("abdo " + endPointState + ExToken);
 		await axios
@@ -71,7 +72,8 @@ export default function transaction_create() {
 					"Content-Type": "application/json",
 					"Access-Control-Allow-Origin": "*",
 					"Access-Control-Allow-Methods": "DELETE, POST, GET, OPTIONS",
-					"Access-Control-Allow-Headers": "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With"
+					"Access-Control-Allow-Headers":
+						"Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With",
 				},
 			})
 			.then((res) => {
@@ -79,10 +81,18 @@ export default function transaction_create() {
 			})
 			.catch((error) => {
 				console.log(error);
-				axios.post("http://localhost:8000/external/refund",data2).catch((error)=>
-				{
-					console.log(error + "bosa")
-				})
+				if (error.response && error.response.data.error == "Account doesn't exist" ) {
+					console.log(error.response.data.error);
+					//setErrorState(error.response.data.error)
+					errorState = error.response.data.error
+					console.log(errorState)
+					
+				}
+				axios
+					.post("http://localhost:8000/external/refund", data2)
+					.catch((error) => {
+						console.log(error)
+					});
 				document.querySelector("#wrongCredentials").style.display = "block";
 			});
 	}
@@ -132,7 +142,7 @@ export default function transaction_create() {
 				})
 				.then(() => {
 					console.log("zzzz");
-					submitExternalTransfer(data,data2);
+					submitExternalTransfer(data, data2);
 				})
 				.catch((error) => {
 					console.log("aaaaa");
@@ -165,7 +175,7 @@ export default function transaction_create() {
 					className="alert alert-danger"
 					role="alert"
 				>
-					Transaction Failed
+					{errorState}
 				</div>
 				<h2>Transfer Balance Externally</h2>
 				<Form className={styles.form} onSubmit={handleSubmit}>
