@@ -62,7 +62,6 @@ export default function Transaction_create() {
 
 	async function submitExternalTransfer(data, data2) {
 		const ExToken = window.sessionStorage.getItem("ExternalJWT");
-		console.log("abdo " + endPointState + ExToken);
 		await axios
 			.post(endPointState, data, {
 				headers: {
@@ -105,9 +104,8 @@ export default function Transaction_create() {
 			window.sessionStorage.getItem("currentAccount_transaction")
 		);
 
-		console.log("kero: " + banknamestate);
+		
 		if (banknamestate == 1) {
-			console.log("zayat");
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
 
