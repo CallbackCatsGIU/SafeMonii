@@ -299,7 +299,7 @@ export default function Transaction_create() {
 							<option value="6">Luck Bank</option>
 						</select>
 					</FormGroup>
-					<Button color="primary">Submit</Button>
+					<Button color="dark">Submit</Button>
 				</Form>
 			</div>
 		</div>

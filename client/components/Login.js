@@ -89,11 +89,11 @@ export default function Login() {
             onChange={handleChange}
           />
         </FormGroup>
-        <Button color="primary" onSubmit={handleSubmit}>
+        <Button color="dark"  onSubmit={handleSubmit}>
           Submit
         </Button>
        
-        <Button style={{marginLeft: 40}}color="primary" onClick={OnRegister}>
+        <Button style={{marginLeft: 150}}color="dark" onClick={OnRegister}>
           Don't have an account? Register here
         </Button>
       </Form>

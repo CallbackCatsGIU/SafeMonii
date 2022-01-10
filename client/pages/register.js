@@ -292,7 +292,7 @@ export default function Register() {
           />
           <FormFeedback>Passwords don't match.</FormFeedback>
         </FormGroup>
-        <Button color="primary">Submit</Button>
+        <Button color="dark">Submit</Button>
       </Form>
     </div>
   );
