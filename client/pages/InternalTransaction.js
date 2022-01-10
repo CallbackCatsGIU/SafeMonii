@@ -120,6 +120,7 @@ export default function InternalTransaction() {
         )
         .then((res) => {
           console.log(res);
+          alert("Transfer Successfull");
           Returnback();
         })
         .catch((error) => {
@@ -144,7 +145,7 @@ export default function InternalTransaction() {
 			>
 				Internal Transfer
 			</h2>
-      <div className={styles.App} style={{backgroundColor: "white"}}>
+      <div className={styles.App} style={{backgroundColor: "#212529"}}>
        <div
          style={{display:"none"}}
          id="wrongCredentials"
@@ -156,7 +157,7 @@ export default function InternalTransaction() {
          </div>
         <Form className={styles.form} onSubmit={handleSubmit}>
           <FormGroup>
-            <Label className={styles.label} for="reciverNum">
+            <Label className={styles.label} style={{color:"white"}} for="reciverNum">
               Receiver Account Number
             </Label>
             <Input
@@ -176,7 +177,7 @@ export default function InternalTransaction() {
             </FormFeedback>
           </FormGroup>
           <FormGroup>
-            <Label className={styles.label} for="transactionBalance">
+            <Label className={styles.label} style={{color:"white"}} for="transactionBalance">
               Desired amount to transfer
             </Label>
             <Input
@@ -192,7 +193,7 @@ export default function InternalTransaction() {
             />
             <FormFeedback>Please input a valid amount to transfer</FormFeedback>
             <FormGroup>
-              <Label className={styles.label} for="transactionDescription">
+              <Label className={styles.label} style={{color:"white"}} for="transactionDescription">
                 Transaction Description
               </Label>
               <Input
@@ -211,7 +212,7 @@ export default function InternalTransaction() {
               <FormFeedback>
                 Please input a description no more than 250 characters
               </FormFeedback>
-              <Label className={styles.label} for="debitCredit">
+              <Label className={styles.label} style={{color:"white"}} for="debitCredit">
                 Debit/Credit
               </Label>
               <tr></tr>
@@ -226,7 +227,7 @@ export default function InternalTransaction() {
                   setdebitCredit(e.target.value);
                 }}
               />
-              <Label for="debit">Debit</Label>
+              <Label for="debit" style={{color:"white"}}>Debit</Label>
               <br></br>
               <Input
                 type="radio"
@@ -238,11 +239,11 @@ export default function InternalTransaction() {
                   setdebitCredit(e.target.value);
                 }}
               />
-              <Label for="credit">Credit</Label>
+              <Label for="credit"  style={{color:"white"}}>Credit</Label>
             </FormGroup>
           </FormGroup>
 
-          <Button className="button  p-3 mb-2 bg-dark text-white" >
+          <Button className="btn-success text-white btn btn-primary" >
             Submit
           </Button>
         </Form>

@@ -100,6 +100,10 @@ export default function Transaction_create() {
 			});
 	}
 
+	function Returnback() {
+		window.location = "http://localhost:3000/";
+	  }
+
 	const handleSubmit = async (event) => {
 		const token = await JSON.parse(window.sessionStorage.getItem("jwt"));
 		event.preventDefault();
@@ -179,6 +183,8 @@ export default function Transaction_create() {
 				})
 				.then(() => {
 					submitExternalTransfer(data, data2);
+					alert("Transfer Successfull");
+					Returnback();
 				})
 				.catch((error) => {
 					if(error.response.data.error){
@@ -218,7 +224,7 @@ export default function Transaction_create() {
 			>
 				External Transfer
 			</h2>
-			<div className={styles.App} style={{backgroundColor: "white"}}>
+			<div className={styles.App} style={{backgroundColor: "#212529"}}>
 				<div
 					style={{ display: "none" }}
 					id="wrongCredentials"
@@ -229,7 +235,7 @@ export default function Transaction_create() {
 				</div>
 				<Form className={styles.form} onSubmit={handleSubmit}>
 					<FormGroup>
-						<Label className={styles.label} for="receiverNumber">
+						<Label className={styles.label} style={{color:"white"}} for="receiverNumber">
 							Receiver Account Number
 						</Label>
 						<Input
@@ -249,7 +255,7 @@ export default function Transaction_create() {
 						</FormFeedback>
 					</FormGroup>
 					<FormGroup>
-						<Label className={styles.label} for="trbalance">
+						<Label className={styles.label} style={{color:"white"}}for="trbalance">
 							Desired amount to transfer
 						</Label>
 						<Input
@@ -268,7 +274,7 @@ export default function Transaction_create() {
 							Please input a valid amount to transfer (Between 1 and 50) .
 						</FormFeedback>
 						<FormGroup>
-							<Label className={styles.label} for="trDescription">
+							<Label className={styles.label} style={{color:"white"}} for="trDescription">
 								Transfer Description
 							</Label>
 							<Input
@@ -289,12 +295,12 @@ export default function Transaction_create() {
 						</FormGroup>
 					</FormGroup>
 					<FormGroup>
-						<Label className={styles.label} for="BankName">
+						<Label className={styles.label} style={{color:"white"}} for="BankName">
 							Desired Bank
 						</Label>
 						<br></br>
 						<select
-							className="custom-select"
+							className="form-select"
 							id="BankNames"
 							size="1"
 							name="bankNamesDD"
@@ -305,7 +311,7 @@ export default function Transaction_create() {
 							}}
 						>
 							<option value="DEFAULT" disabled>
-								Choose...
+								Select Desired Bank..
 							</option>
 							<option value="1">Solace Bank</option>
 							<option value="2">MYFSD Bank</option>
@@ -315,7 +321,7 @@ export default function Transaction_create() {
 							<option value="6">Luck Bank</option>
 						</select>
 					</FormGroup>
-					<Button color="dark">Submit</Button>
+					<Button className="btn-success text-white btn btn-primary"  >Submit</Button>
 				</Form>
 			</div>
 		</div>

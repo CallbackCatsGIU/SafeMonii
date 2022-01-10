@@ -33,12 +33,12 @@ export default class AccountList extends Component {
 
   render() {
     return (
-      <tr>
-        <td style={{backgroundColor: "white"}}>{this.props.obj.accountNumber}</td>
-        <td style={{backgroundColor: "white"}}>{this.props.obj.balance}</td>
-        <td style={{backgroundColor: "white"}}>
-          <Button style={{marginRight : 40}} className="btn-dark"  onClick= {this.handleClick2}>Create Transaction</Button>
-          <Button className="btn-dark"  onClick= {this.handleClick}>View Transactions</Button>
+      <tr >
+        <td style={{backgroundColor:"#212529"}}>{this.props.obj.accountNumber}</td>
+        <td style={{backgroundColor:"#212529"}}>{this.props.obj.balance}</td>
+        <td style={{backgroundColor:"#212529"}}>
+          <Button style={{marginRight : 40}} className="btn-success text-white"  onClick= {this.handleClick2}>Create Transaction</Button>
+          <Button className="btn-success text-white"  onClick= {this.handleClick}>View Transactions</Button>
         </td>
       </tr>
     );

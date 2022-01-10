@@ -61,9 +61,9 @@ export default class Dashboard extends Component {
 				>
 					Welcome to SafeMonii
 				</h1>
-				<div className={styles.App} style={{width: 1040 ,outerHeight:1000,backgroundColor:"white"}}>
-					<div className="table-wrapper" style={{ textAlign: "center" }}>
-						<Table striped bordered hover style={{ backgroundColor: "white",textAlign: "center" }}>
+				<div className={styles.App} style={{width: 1040 ,outerHeight:1000,backgroundColor:"#212529",outlineColor:"#212529"}}>
+					<div className="table-wrapper " style={{ textAlign: "center",backgroundColor:"#212529",textEmphasisColor:"white" }}>
+						<Table striped bordered hover variant="dark" style={{textAlign: "center" }}>
 							<thead>
 								<tr>
 									<th>ID</th>

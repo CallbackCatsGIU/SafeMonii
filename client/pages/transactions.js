@@ -86,20 +86,20 @@ export default class Transactions extends Component {
 				>
 					Account Transactions
 				</h1>
-				<div className={styles.App} style={{backgroundColor: "white"}}>
-					<h4 style={{ textAlign: "center" }}>
+				<div className={styles.App} style={{backgroundColor:"#212529"}}>
+					<h4 style={{ textAlign: "center",color:"white"}}>
 						Account Number: {this.state.currentNum}
 					</h4>
-					<h4 style={{ textAlign: "center" }}>
+					<h4 style={{ textAlign: "center" ,color:"white"}}>
 						Account Balance: {this.state.currentBalance} $
 					</h4>
 				</div>
 				<div class="row" >
 					<div class="col-sm-6" >
-						<div className={styles.App} style={{backgroundColor: "white"}}>
+						<div className={styles.App} style={{backgroundColor: "#212529"}}>
 							<div className="table-wrapper">
-								<h2 style={{ textAlign: "center" }}>Sent Transactions</h2>
-								<Table striped bordered hover>
+								<h2 style={{ textAlign: "center",color:"white" }}>Sent Transactions</h2>
+								<Table striped bordered hover variant="dark">
 									<thead>
 										<tr>
 											<th>Date</th>
@@ -114,9 +114,9 @@ export default class Transactions extends Component {
 						</div>
 					</div>
 					<div class="col-sm-6">
-						<div className={styles.App} style={{backgroundColor: "white"}}>
-							<h2 style={{ textAlign: "center" }}>Received Transactions</h2>
-							<Table striped bordered hover>
+						<div className={styles.App} style={{backgroundColor: "#212529"}}>
+							<h2 style={{ textAlign: "center",color:"white" }}>Received Transactions</h2>
+							<Table striped bordered hover variant="dark">
 								<thead>
 									<tr>
 										<th>Date</th>

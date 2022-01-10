@@ -24,7 +24,7 @@ export default class TransactionList extends Component {
         <td>{this.dateFormat(this.props.obj.Date)}</td>
         <td>{this.props.obj.description}</td>
         <td>{this.booleanView(this.props.obj.debit)}</td>
-        <td>{this.props.obj.amount} $</td>
+        <td style={{color: "#58CD36"}}>{this.props.obj.amount} $</td>
       </tr>
     );
   }
