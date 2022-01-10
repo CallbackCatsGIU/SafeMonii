@@ -252,6 +252,7 @@ export default function Transaction_create() {
 						<FormFeedback>
 							Please input a valid 12 digit account number.
 						</FormFeedback>
+						<hr style={{color:"white"}}></hr>
 					</FormGroup>
 					<FormGroup>
 						<Label
@@ -276,6 +277,7 @@ export default function Transaction_create() {
 						<FormFeedback>
 							Please input a valid amount to transfer (Between 1 and 50) .
 						</FormFeedback>
+						<hr style={{color:"white"}}></hr>
 						<FormGroup>
 							<Label
 								className={styles.label}
@@ -299,6 +301,7 @@ export default function Transaction_create() {
 							<FormFeedback>
 								Please input a description no more than 250 characters.
 							</FormFeedback>
+							<hr style={{color:"white"}}></hr>
 						</FormGroup>
 					</FormGroup>
 					<FormGroup>
@@ -331,6 +334,7 @@ export default function Transaction_create() {
 							<option value="5">The Blank Bank</option>
 							<option value="6">Luck Bank</option>
 						</select>
+						<hr style={{color:"white"}}></hr>
 					</FormGroup>
 					<Button className="btn-success text-white btn btn-primary">
 						Submit
