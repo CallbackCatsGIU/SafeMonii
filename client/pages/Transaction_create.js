@@ -75,20 +75,22 @@ export default function Transaction_create() {
 			})
 			.then((res) => {
 				console.log(res);
+				alert("Transfer Successfull");
+				Returnback();
 			})
 			.catch((error) => {
 				console.log(error);
 				if (error.response) {
 					//console.log(error.response.data.error);
-					
-					if(error.response.data.error){
+
+					if (error.response.data.error) {
 						setErrorState(error.response.data.error);
 						errorState = error.response.data.error;
 					}
-					if(error.response.data.message){
+					if (error.response.data.message) {
 						setErrorState(error.response.data.message);
 						errorState = error.response.data.message;
-					}				
+					}
 					console.log(errorState);
 				}
 				document.querySelector("#wrongCredentials").style.display = "block";
@@ -102,7 +104,7 @@ export default function Transaction_create() {
 
 	function Returnback() {
 		window.location = "http://localhost:3000/";
-	  }
+	}
 
 	const handleSubmit = async (event) => {
 		const token = await JSON.parse(window.sessionStorage.getItem("jwt"));
@@ -116,32 +118,28 @@ export default function Transaction_create() {
 
 		if (banknamestate == 1) {
 			setEndPointState("https://solace.loca.lt/external/transfer");
-			endPointState = "https://solace.loca.lt/external/transfer"
+			endPointState = "https://solace.loca.lt/external/transfer";
 		}
 		if (banknamestate == 2) {
 			setEndPointState("https://myfsd.loca.it/external/transfer");
-			endPointState = "https://myfsd.loca.lt/external/transfer"
+			endPointState = "https://myfsd.loca.lt/external/transfer";
 		}
 		if (banknamestate == 3) {
 			setEndPointState(
 				"https://amryinternationalbank.loca.lt/external/transfer"
 			);
-			endPointState = "https://amryinternationalbank.loca.lt/external/transfer"
-
+			endPointState = "https://amryinternationalbank.loca.lt/external/transfer";
 		}
 		if (banknamestate == 4) {
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
-			endPointState = "https://safemonii.loca.lt/external/transfer"
-			
-			
+			endPointState = "https://safemonii.loca.lt/external/transfer";
 		}
 		if (banknamestate == 5) {
 			setEndPointState("https://safemonii.loca.lt/external/transfer");
 		}
 		if (banknamestate == 6) {
 			setEndPointState("https://luckbank.loca.lt/external/transfer");
-			endPointState = "https://luckbank.loca.lt/external/transfer"
-
+			endPointState = "https://luckbank.loca.lt/external/transfer";
 		}
 
 		console.log(banknamestate);
@@ -165,16 +163,15 @@ export default function Transaction_create() {
 			};
 			console.log(data);
 			console.log(data2);
-		 	//ExToken = window.sessionStorage.getItem("ExternalJWT");
+			//ExToken = window.sessionStorage.getItem("ExternalJWT");
 			console.log(token);
 			await axios
-				.post("http://localhost:8000/external/createTransfer", data2,{
+				.post("http://localhost:8000/external/createTransfer", data2, {
 					headers: {
 						Authorization: `Bearer ${token}`,
 						"Bypass-Tunnel-Reminder": "any",
 					},
-				}
-				)
+				})
 				.then((response) => {
 					console.log(response.data.token);
 					window.sessionStorage.setItem("ExternalJWT", response.data.token);
@@ -183,18 +180,16 @@ export default function Transaction_create() {
 				})
 				.then(async () => {
 					await submitExternalTransfer(data, data2);
-					alert("Transfer Successfull");
-					Returnback();
 				})
 				.catch((error) => {
-					if(error.response.data.error){
+					if (error.response.data.error) {
 						setErrorState(error.response.data.error);
 						errorState = error.response.data.error;
 					}
-					if(error.response.data.message){
+					if (error.response.data.message) {
 						setErrorState(error.response.data.message);
 						errorState = error.response.data.message;
-					}				
+					}
 					console.log(errorState);
 					document.querySelector("#wrongCredentials").style.display = "block";
 				});
@@ -224,7 +219,7 @@ export default function Transaction_create() {
 			>
 				External Transfer
 			</h2>
-			<div className={styles.App} style={{backgroundColor: "#212529"}}>
+			<div className={styles.App} style={{ backgroundColor: "#212529" }}>
 				<div
 					style={{ display: "none" }}
 					id="wrongCredentials"
@@ -235,7 +230,11 @@ export default function Transaction_create() {
 				</div>
 				<Form className={styles.form} onSubmit={handleSubmit}>
 					<FormGroup>
-						<Label className={styles.label} style={{color:"white"}} for="receiverNumber">
+						<Label
+							className={styles.label}
+							style={{ color: "white" }}
+							for="receiverNumber"
+						>
 							Receiver Account Number
 						</Label>
 						<Input
@@ -255,7 +254,11 @@ export default function Transaction_create() {
 						</FormFeedback>
 					</FormGroup>
 					<FormGroup>
-						<Label className={styles.label} style={{color:"white"}}for="trbalance">
+						<Label
+							className={styles.label}
+							style={{ color: "white" }}
+							for="trbalance"
+						>
 							Desired amount to transfer
 						</Label>
 						<Input
@@ -274,7 +277,11 @@ export default function Transaction_create() {
 							Please input a valid amount to transfer (Between 1 and 50) .
 						</FormFeedback>
 						<FormGroup>
-							<Label className={styles.label} style={{color:"white"}} for="trDescription">
+							<Label
+								className={styles.label}
+								style={{ color: "white" }}
+								for="trDescription"
+							>
 								Transfer Description
 							</Label>
 							<Input
@@ -295,7 +302,11 @@ export default function Transaction_create() {
 						</FormGroup>
 					</FormGroup>
 					<FormGroup>
-						<Label className={styles.label} style={{color:"white"}} for="BankName">
+						<Label
+							className={styles.label}
+							style={{ color: "white" }}
+							for="BankName"
+						>
 							Desired Bank
 						</Label>
 						<br></br>
@@ -321,7 +332,9 @@ export default function Transaction_create() {
 							<option value="6">Luck Bank</option>
 						</select>
 					</FormGroup>
-					<Button className="btn-success text-white btn btn-primary"  >Submit</Button>
+					<Button className="btn-success text-white btn btn-primary">
+						Submit
+					</Button>
 				</Form>
 			</div>
 		</div>
