@@ -121,7 +121,7 @@ export default function Transaction_create() {
 			endPointState = "https://solace.loca.lt/external/transfer";
 		}
 		if (banknamestate == 2) {
-			setEndPointState("https://myfsd.loca.it/external/transfer");
+			setEndPointState("https://myfsd.loca.lt/external/transfer");
 			endPointState = "https://myfsd.loca.lt/external/transfer";
 		}
 		if (banknamestate == 3) {
