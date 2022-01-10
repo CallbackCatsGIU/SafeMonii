@@ -9,6 +9,7 @@ export class ExternalController {
   constructor(private externalService: ExternalService) { }
 
  
+  @UseGuards(AuthGuard('jwt'))
   @Post('/createTransfer')
   async createExternalTransaction(@Body() transaction: transactionDto) {
     return await this.externalService.makeExternalTransaction(transaction);

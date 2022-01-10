@@ -25,7 +25,7 @@ export default class Dashboard extends Component {
 		const token = JSON.parse(window.sessionStorage.getItem("jwt"));
 
 		await axios
-			.get(url)
+			.get(url,{ headers: { Authorization: `Bearer ${token}` } })
 			.then((response) => {
 				currentID = response.data[0].studentId;
 			})

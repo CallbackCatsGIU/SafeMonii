@@ -101,6 +101,7 @@ export default function Transaction_create() {
 	}
 
 	const handleSubmit = async (event) => {
+		const token = await JSON.parse(window.sessionStorage.getItem("jwt"));
 		event.preventDefault();
 		validateReceiverNumber(receiverNumber);
 		validateTrBalance(trBalance);
@@ -160,8 +161,16 @@ export default function Transaction_create() {
 			};
 			console.log(data);
 			console.log(data2);
+		 	//ExToken = window.sessionStorage.getItem("ExternalJWT");
+			console.log(token);
 			await axios
-				.post("http://localhost:8000/external/createTransfer", data2)
+				.post("http://localhost:8000/external/createTransfer", data2,{
+					headers: {
+						Authorization: `Bearer ${token}`,
+						"Bypass-Tunnel-Reminder": "any",
+					},
+				}
+				)
 				.then((response) => {
 					console.log(response.data.token);
 					window.sessionStorage.setItem("ExternalJWT", response.data.token);
@@ -169,18 +178,18 @@ export default function Transaction_create() {
 					console.log("before" + externalToken);
 				})
 				.then(() => {
-					console.log("zzzz");
 					submitExternalTransfer(data, data2);
 				})
 				.catch((error) => {
-					console.log("aaaaa");
-					console.log(error);
-					if (error.response) {
-						//console.log(error.response.data.error);
+					if(error.response.data.error){
 						setErrorState(error.response.data.error);
 						errorState = error.response.data.error;
-						console.log(errorState);
 					}
+					if(error.response.data.message){
+						setErrorState(error.response.data.message);
+						errorState = error.response.data.message;
+					}				
+					console.log(errorState);
 					document.querySelector("#wrongCredentials").style.display = "block";
 				});
 		}

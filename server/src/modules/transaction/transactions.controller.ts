@@ -8,17 +8,18 @@ import { TransactionService } from './transaction.service';
 export class TransactionController {
   constructor(private transactionService: TransactionService) { }
 
-  @Post('/newTransaction') 
-  async createTransaction(@Body() transaction: transactionDto) {
-      return await this.transactionService.newTransaction(transaction);
-  }
+  // @Post('/newTransaction') 
+  // async createTransaction(@Body() transaction: transactionDto) {
+  //     return await this.transactionService.newTransaction(transaction);
+  // }
 
-  
+  @UseGuards(AuthGuard('jwt'))
   @Post('/newInternalTransaction')
   async createInternalTransaction(@Body() transaction: transactionDto){
       return await this.transactionService.internalTransaction(transaction);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('/outerTransaction/:id')
   async outerTransaction(@Param('id') id: Number){
     return await this.transactionService.findTransactionSender(id);
@@ -30,9 +31,9 @@ export class TransactionController {
     return await this.transactionService.findTransactionReceiver(id);
   }
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get('/transactionList/:id')
-  async transaction(@Param('id') id: Number){
-    return await this.transactionService.findTransaction(id);
-  }
+  // @UseGuards(AuthGuard('jwt'))
+  // @Get('/transactionList/:id')
+  // async transaction(@Param('id') id: Number){
+  //   return await this.transactionService.findTransaction(id);
+  // }
 }

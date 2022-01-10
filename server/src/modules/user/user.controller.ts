@@ -21,7 +21,8 @@ export class UserController {
   // users(): any {
   //   return this.userService.findAll();
   // }
-
+  
+  @UseGuards(AuthGuard('jwt'))
   @Get('/email/:email')
   async getByEmail(@Param('email') email: String) {
     return await this.userService.findOneWithEmail(email);
