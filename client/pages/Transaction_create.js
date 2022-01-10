@@ -181,8 +181,8 @@ export default function Transaction_create() {
 					setExternalToken(response.data.token);
 					console.log("before" + externalToken);
 				})
-				.then(() => {
-					submitExternalTransfer(data, data2);
+				.then(async () => {
+					await submitExternalTransfer(data, data2);
 					alert("Transfer Successfull");
 					Returnback();
 				})
