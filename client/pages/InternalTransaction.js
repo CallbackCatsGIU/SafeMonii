@@ -27,6 +27,7 @@ export default function InternalTransaction() {
   const [transactionBalance, setTransactionBalance] = useState("");
   const [tranBalanceState, setTranBalanceState] = useState("");
   const [debitCredit, setdebitCredit] = useState("True");
+  const [errorState, setErrorState] = useState("Network Error");
 
   const validateReceiverNum = (value) => {
     let reciverNumState;
@@ -124,9 +125,17 @@ export default function InternalTransaction() {
         )
         .then((res) => {
           console.log(res);
+          Returnback();
         })
         .catch((error) => {
-          console.log(error);
+         if (error.message){
+           setErrorState(error.response.data.error);
+           errorState=error.response.data.error;
+           console.log(errorState);
+
+         }
+         document.querySelector("#wrongCredentials").style.display = "block";
+         console.log(error);
         });
     }
   };
@@ -141,6 +150,15 @@ export default function InternalTransaction() {
 				Internal Transfer
 			</h2>
       <div className={styles.App} style={{backgroundColor: "white"}}>
+       <div
+         style={{display:"none"}}
+         id="wrongCredentials"
+         className="alert alert-danger"
+         role="alert"
+
+       >
+         {errorState}
+         </div>
         <Form className={styles.form} onSubmit={handleSubmit}>
           <FormGroup>
             <Label className={styles.label} for="reciverNum">
@@ -203,7 +221,7 @@ export default function InternalTransaction() {
               </Label>
               <tr></tr>
 
-              <input
+              <Input
                 type="radio"
                 name="debit"
                 value="debit"
@@ -213,9 +231,9 @@ export default function InternalTransaction() {
                   setdebitCredit(e.target.value);
                 }}
               />
-              <label for="debit">Debit</label>
+              <Label for="debit">Debit</Label>
               <br></br>
-              <input
+              <Input
                 type="radio"
                 name="debit"
                 value="credit"
@@ -225,13 +243,13 @@ export default function InternalTransaction() {
                   setdebitCredit(e.target.value);
                 }}
               />
-              <label for="credit">Credit</label>
+              <Label for="credit">Credit</Label>
             </FormGroup>
           </FormGroup>
 
-          <button className="button  p-3 mb-2 bg-dark text-white">
+          <Button className="button  p-3 mb-2 bg-dark text-white" >
             Submit
-          </button>
+          </Button>
         </Form>
       </div>
     </div>
