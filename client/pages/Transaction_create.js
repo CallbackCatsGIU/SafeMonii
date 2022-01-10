@@ -80,8 +80,15 @@ export default function Transaction_create() {
 				console.log(error);
 				if (error.response) {
 					//console.log(error.response.data.error);
-					setErrorState(error.response.data.error);
-					errorState = error.response.data.error;
+					
+					if(error.response.data.error){
+						setErrorState(error.response.data.error);
+						errorState = error.response.data.error;
+					}
+					if(error.response.data.message){
+						setErrorState(error.response.data.message);
+						errorState = error.response.data.message;
+					}				
 					console.log(errorState);
 				}
 				document.querySelector("#wrongCredentials").style.display = "block";
