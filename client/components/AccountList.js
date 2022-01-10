@@ -37,8 +37,8 @@ export default class AccountList extends Component {
         <td style={{backgroundColor: "white"}}>{this.props.obj.accountNumber}</td>
         <td style={{backgroundColor: "white"}}>{this.props.obj.balance}</td>
         <td style={{backgroundColor: "white"}}>
-          <Button style={{marginRight : 40}} className="btn-success" onClick= {this.handleClick2}>Create Transaction</Button>
-          <Button className="btn-success" onClick= {this.handleClick}>View Transactions</Button>
+          <Button style={{marginRight : 40}} className="btn-dark"  onClick= {this.handleClick2}>Create Transaction</Button>
+          <Button className="btn-dark"  onClick= {this.handleClick}>View Transactions</Button>
         </td>
       </tr>
     );
