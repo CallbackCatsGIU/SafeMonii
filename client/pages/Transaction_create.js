@@ -75,7 +75,7 @@ export default function Transaction_create() {
 			})
 			.then((res) => {
 				console.log(res);
-				alert("Transfer Successfull");
+				alert("Transfer Successful");
 				Returnback();
 			})
 			.catch((error) => {
